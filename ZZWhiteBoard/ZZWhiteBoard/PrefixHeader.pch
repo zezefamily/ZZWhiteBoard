@@ -1,0 +1,32 @@
+//
+//  PrefixHeader.pch
+//  ZZWhiteBoard
+//
+//  Created by 泽泽 on 2019/9/4.
+//  Copyright © 2019 泽泽. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+
+#ifdef __OBJC__
+    #import "SafeData.h"
+    #import "ZZContentModel.h"
+    #import "UIColor+ZZBaseControl.h"
+    #import "MJExtension.h"
+#endif
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#ifdef DEBUG
+#define XXLog(...) NSLog(@"%s 第%d行 \n %@\n",__func__,__LINE__,[NSString stringWithFormat:__VA_ARGS__])
+#else
+#define XXLog(...)
+
+
+
+#endif
+
+
+#endif /* PrefixHeader_pch */

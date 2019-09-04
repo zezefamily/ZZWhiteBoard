@@ -15,6 +15,26 @@
 		FF9ABAB2231F925B00F5C504 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABAB1231F925B00F5C504 /* main.m */; };
 		FF9ABABC231F925B00F5C504 /* ZZWhiteBoardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABABB231F925B00F5C504 /* ZZWhiteBoardTests.m */; };
 		FF9ABAC7231F925B00F5C504 /* ZZWhiteBoardUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABAC6231F925B00F5C504 /* ZZWhiteBoardUITests.m */; };
+		FF9ABAD7231F97B200F5C504 /* ZZCADisplayLinkHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABAD6231F97B200F5C504 /* ZZCADisplayLinkHolder.m */; };
+		FF9ABADA231F998100F5C504 /* ZZDrawBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABAD9231F998100F5C504 /* ZZDrawBoard.m */; };
+		FF9ABADF231F99C900F5C504 /* ZZCommonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABADE231F99C800F5C504 /* ZZCommonModel.m */; };
+		FF9ABAE2231F99DD00F5C504 /* ZZContentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABAE1231F99DD00F5C504 /* ZZContentModel.m */; };
+		FF9ABAE5231F9C8800F5C504 /* ZZPaintPath.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABAE4231F9C8800F5C504 /* ZZPaintPath.m */; };
+		FF9ABAE8231F9D2000F5C504 /* ZZLinesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABAE7231F9D2000F5C504 /* ZZLinesManager.m */; };
+		FF9ABAF5231FA16A00F5C504 /* NSData+Safe.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABAF0231FA16A00F5C504 /* NSData+Safe.m */; };
+		FF9ABAF6231FA16A00F5C504 /* NSArray+Safe.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABAF1231FA16A00F5C504 /* NSArray+Safe.m */; };
+		FF9ABAF7231FA16A00F5C504 /* NSDictionary+Safe.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABAF4231FA16A00F5C504 /* NSDictionary+Safe.m */; };
+		FF9ABAFB231FB6F200F5C504 /* UIColor+ZZBaseControl.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABAFA231FB6F200F5C504 /* UIColor+ZZBaseControl.m */; };
+		FF9ABB12231FB7A300F5C504 /* MJPropertyType.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABAFD231FB7A100F5C504 /* MJPropertyType.m */; };
+		FF9ABB13231FB7A300F5C504 /* MJExtensionConst.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABAFF231FB7A100F5C504 /* MJExtensionConst.m */; };
+		FF9ABB14231FB7A300F5C504 /* NSObject+MJProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABB01231FB7A100F5C504 /* NSObject+MJProperty.m */; };
+		FF9ABB15231FB7A300F5C504 /* MJPropertyKey.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABB06231FB7A100F5C504 /* MJPropertyKey.m */; };
+		FF9ABB16231FB7A300F5C504 /* NSObject+MJKeyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABB07231FB7A200F5C504 /* NSObject+MJKeyValue.m */; };
+		FF9ABB17231FB7A300F5C504 /* NSString+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABB08231FB7A200F5C504 /* NSString+MJExtension.m */; };
+		FF9ABB18231FB7A300F5C504 /* MJProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABB0D231FB7A200F5C504 /* MJProperty.m */; };
+		FF9ABB19231FB7A300F5C504 /* NSObject+MJCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABB0F231FB7A300F5C504 /* NSObject+MJCoding.m */; };
+		FF9ABB1A231FB7A300F5C504 /* NSObject+MJClass.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABB10231FB7A300F5C504 /* NSObject+MJClass.m */; };
+		FF9ABB1B231FB7A300F5C504 /* MJFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABB11231FB7A300F5C504 /* MJFoundation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +71,49 @@
 		FF9ABAC2231F925B00F5C504 /* ZZWhiteBoardUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZZWhiteBoardUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF9ABAC6231F925B00F5C504 /* ZZWhiteBoardUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZZWhiteBoardUITests.m; sourceTree = "<group>"; };
 		FF9ABAC8231F925B00F5C504 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FF9ABAD5231F97B200F5C504 /* ZZCADisplayLinkHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZCADisplayLinkHolder.h; sourceTree = "<group>"; };
+		FF9ABAD6231F97B200F5C504 /* ZZCADisplayLinkHolder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZZCADisplayLinkHolder.m; sourceTree = "<group>"; };
+		FF9ABAD8231F998100F5C504 /* ZZDrawBoard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZDrawBoard.h; sourceTree = "<group>"; };
+		FF9ABAD9231F998100F5C504 /* ZZDrawBoard.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZZDrawBoard.m; sourceTree = "<group>"; };
+		FF9ABADD231F99C800F5C504 /* ZZCommonModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZCommonModel.h; sourceTree = "<group>"; };
+		FF9ABADE231F99C800F5C504 /* ZZCommonModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZZCommonModel.m; sourceTree = "<group>"; };
+		FF9ABAE0231F99DD00F5C504 /* ZZContentModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZContentModel.h; sourceTree = "<group>"; };
+		FF9ABAE1231F99DD00F5C504 /* ZZContentModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZZContentModel.m; sourceTree = "<group>"; };
+		FF9ABAE3231F9C8800F5C504 /* ZZPaintPath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZPaintPath.h; sourceTree = "<group>"; };
+		FF9ABAE4231F9C8800F5C504 /* ZZPaintPath.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZZPaintPath.m; sourceTree = "<group>"; };
+		FF9ABAE6231F9D2000F5C504 /* ZZLinesManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZLinesManager.h; sourceTree = "<group>"; };
+		FF9ABAE7231F9D2000F5C504 /* ZZLinesManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZZLinesManager.m; sourceTree = "<group>"; };
+		FF9ABAEC231FA09600F5C504 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		FF9ABAEE231FA16A00F5C504 /* NSArray+Safe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Safe.h"; sourceTree = "<group>"; };
+		FF9ABAEF231FA16A00F5C504 /* NSDictionary+Safe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Safe.h"; sourceTree = "<group>"; };
+		FF9ABAF0231FA16A00F5C504 /* NSData+Safe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Safe.m"; sourceTree = "<group>"; };
+		FF9ABAF1231FA16A00F5C504 /* NSArray+Safe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Safe.m"; sourceTree = "<group>"; };
+		FF9ABAF2231FA16A00F5C504 /* SafeData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SafeData.h; sourceTree = "<group>"; };
+		FF9ABAF3231FA16A00F5C504 /* NSData+Safe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Safe.h"; sourceTree = "<group>"; };
+		FF9ABAF4231FA16A00F5C504 /* NSDictionary+Safe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Safe.m"; sourceTree = "<group>"; };
+		FF9ABAF9231FB6F200F5C504 /* UIColor+ZZBaseControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+ZZBaseControl.h"; sourceTree = "<group>"; };
+		FF9ABAFA231FB6F200F5C504 /* UIColor+ZZBaseControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ZZBaseControl.m"; sourceTree = "<group>"; };
+		FF9ABAFD231FB7A100F5C504 /* MJPropertyType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPropertyType.m; sourceTree = "<group>"; };
+		FF9ABAFE231FB7A100F5C504 /* MJProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJProperty.h; sourceTree = "<group>"; };
+		FF9ABAFF231FB7A100F5C504 /* MJExtensionConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJExtensionConst.m; sourceTree = "<group>"; };
+		FF9ABB00231FB7A100F5C504 /* NSString+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MJExtension.h"; sourceTree = "<group>"; };
+		FF9ABB01231FB7A100F5C504 /* NSObject+MJProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJProperty.m"; sourceTree = "<group>"; };
+		FF9ABB02231FB7A100F5C504 /* NSObject+MJClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJClass.h"; sourceTree = "<group>"; };
+		FF9ABB03231FB7A100F5C504 /* MJExtensionConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJExtensionConst.h; sourceTree = "<group>"; };
+		FF9ABB04231FB7A100F5C504 /* MJFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJFoundation.h; sourceTree = "<group>"; };
+		FF9ABB05231FB7A100F5C504 /* MJPropertyKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPropertyKey.h; sourceTree = "<group>"; };
+		FF9ABB06231FB7A100F5C504 /* MJPropertyKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPropertyKey.m; sourceTree = "<group>"; };
+		FF9ABB07231FB7A200F5C504 /* NSObject+MJKeyValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJKeyValue.m"; sourceTree = "<group>"; };
+		FF9ABB08231FB7A200F5C504 /* NSString+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MJExtension.m"; sourceTree = "<group>"; };
+		FF9ABB09231FB7A200F5C504 /* NSObject+MJCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJCoding.h"; sourceTree = "<group>"; };
+		FF9ABB0A231FB7A200F5C504 /* NSObject+MJKeyValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJKeyValue.h"; sourceTree = "<group>"; };
+		FF9ABB0B231FB7A200F5C504 /* NSObject+MJProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MJProperty.h"; sourceTree = "<group>"; };
+		FF9ABB0C231FB7A200F5C504 /* MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJExtension.h; sourceTree = "<group>"; };
+		FF9ABB0D231FB7A200F5C504 /* MJProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJProperty.m; sourceTree = "<group>"; };
+		FF9ABB0E231FB7A200F5C504 /* MJPropertyType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPropertyType.h; sourceTree = "<group>"; };
+		FF9ABB0F231FB7A300F5C504 /* NSObject+MJCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJCoding.m"; sourceTree = "<group>"; };
+		FF9ABB10231FB7A300F5C504 /* NSObject+MJClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJClass.m"; sourceTree = "<group>"; };
+		FF9ABB11231FB7A300F5C504 /* MJFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJFoundation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +164,10 @@
 		FF9ABAA1231F925800F5C504 /* ZZWhiteBoard */ = {
 			isa = PBXGroup;
 			children = (
+				FF9ABAE9231F9FBE00F5C504 /* Tools */,
+				FF9ABADC231F99A000F5C504 /* Manager */,
+				FF9ABADB231F999500F5C504 /* Model */,
+				FF9ABAD4231F979000F5C504 /* Board */,
 				FF9ABAA2231F925800F5C504 /* AppDelegate.h */,
 				FF9ABAA3231F925800F5C504 /* AppDelegate.m */,
 				FF9ABAA5231F925800F5C504 /* ViewController.h */,
@@ -110,6 +177,7 @@
 				FF9ABAAD231F925B00F5C504 /* LaunchScreen.storyboard */,
 				FF9ABAB0231F925B00F5C504 /* Info.plist */,
 				FF9ABAB1231F925B00F5C504 /* main.m */,
+				FF9ABAEC231FA09600F5C504 /* PrefixHeader.pch */,
 			);
 			path = ZZWhiteBoard;
 			sourceTree = "<group>";
@@ -130,6 +198,101 @@
 				FF9ABAC8231F925B00F5C504 /* Info.plist */,
 			);
 			path = ZZWhiteBoardUITests;
+			sourceTree = "<group>";
+		};
+		FF9ABAD4231F979000F5C504 /* Board */ = {
+			isa = PBXGroup;
+			children = (
+				FF9ABAD5231F97B200F5C504 /* ZZCADisplayLinkHolder.h */,
+				FF9ABAD6231F97B200F5C504 /* ZZCADisplayLinkHolder.m */,
+				FF9ABAD8231F998100F5C504 /* ZZDrawBoard.h */,
+				FF9ABAD9231F998100F5C504 /* ZZDrawBoard.m */,
+				FF9ABAE3231F9C8800F5C504 /* ZZPaintPath.h */,
+				FF9ABAE4231F9C8800F5C504 /* ZZPaintPath.m */,
+			);
+			path = Board;
+			sourceTree = "<group>";
+		};
+		FF9ABADB231F999500F5C504 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FF9ABADD231F99C800F5C504 /* ZZCommonModel.h */,
+				FF9ABADE231F99C800F5C504 /* ZZCommonModel.m */,
+				FF9ABAE0231F99DD00F5C504 /* ZZContentModel.h */,
+				FF9ABAE1231F99DD00F5C504 /* ZZContentModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		FF9ABADC231F99A000F5C504 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				FF9ABAE6231F9D2000F5C504 /* ZZLinesManager.h */,
+				FF9ABAE7231F9D2000F5C504 /* ZZLinesManager.m */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		FF9ABAE9231F9FBE00F5C504 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				FF9ABAFC231FB79100F5C504 /* MJExtension */,
+				FF9ABAF8231FB6D000F5C504 /* Colors */,
+				FF9ABAED231FA15400F5C504 /* SafeFoundation */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		FF9ABAED231FA15400F5C504 /* SafeFoundation */ = {
+			isa = PBXGroup;
+			children = (
+				FF9ABAEE231FA16A00F5C504 /* NSArray+Safe.h */,
+				FF9ABAF1231FA16A00F5C504 /* NSArray+Safe.m */,
+				FF9ABAF3231FA16A00F5C504 /* NSData+Safe.h */,
+				FF9ABAF0231FA16A00F5C504 /* NSData+Safe.m */,
+				FF9ABAEF231FA16A00F5C504 /* NSDictionary+Safe.h */,
+				FF9ABAF4231FA16A00F5C504 /* NSDictionary+Safe.m */,
+				FF9ABAF2231FA16A00F5C504 /* SafeData.h */,
+			);
+			name = SafeFoundation;
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		FF9ABAF8231FB6D000F5C504 /* Colors */ = {
+			isa = PBXGroup;
+			children = (
+				FF9ABAF9231FB6F200F5C504 /* UIColor+ZZBaseControl.h */,
+				FF9ABAFA231FB6F200F5C504 /* UIColor+ZZBaseControl.m */,
+			);
+			path = Colors;
+			sourceTree = "<group>";
+		};
+		FF9ABAFC231FB79100F5C504 /* MJExtension */ = {
+			isa = PBXGroup;
+			children = (
+				FF9ABB0C231FB7A200F5C504 /* MJExtension.h */,
+				FF9ABB03231FB7A100F5C504 /* MJExtensionConst.h */,
+				FF9ABAFF231FB7A100F5C504 /* MJExtensionConst.m */,
+				FF9ABB04231FB7A100F5C504 /* MJFoundation.h */,
+				FF9ABB11231FB7A300F5C504 /* MJFoundation.m */,
+				FF9ABAFE231FB7A100F5C504 /* MJProperty.h */,
+				FF9ABB0D231FB7A200F5C504 /* MJProperty.m */,
+				FF9ABB05231FB7A100F5C504 /* MJPropertyKey.h */,
+				FF9ABB06231FB7A100F5C504 /* MJPropertyKey.m */,
+				FF9ABB0E231FB7A200F5C504 /* MJPropertyType.h */,
+				FF9ABAFD231FB7A100F5C504 /* MJPropertyType.m */,
+				FF9ABB02231FB7A100F5C504 /* NSObject+MJClass.h */,
+				FF9ABB10231FB7A300F5C504 /* NSObject+MJClass.m */,
+				FF9ABB09231FB7A200F5C504 /* NSObject+MJCoding.h */,
+				FF9ABB0F231FB7A300F5C504 /* NSObject+MJCoding.m */,
+				FF9ABB0A231FB7A200F5C504 /* NSObject+MJKeyValue.h */,
+				FF9ABB07231FB7A200F5C504 /* NSObject+MJKeyValue.m */,
+				FF9ABB0B231FB7A200F5C504 /* NSObject+MJProperty.h */,
+				FF9ABB01231FB7A100F5C504 /* NSObject+MJProperty.m */,
+				FF9ABB00231FB7A100F5C504 /* NSString+MJExtension.h */,
+				FF9ABB08231FB7A200F5C504 /* NSString+MJExtension.m */,
+			);
+			path = MJExtension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,9 +425,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF9ABAE2231F99DD00F5C504 /* ZZContentModel.m in Sources */,
+				FF9ABB13231FB7A300F5C504 /* MJExtensionConst.m in Sources */,
+				FF9ABAF5231FA16A00F5C504 /* NSData+Safe.m in Sources */,
+				FF9ABB18231FB7A300F5C504 /* MJProperty.m in Sources */,
+				FF9ABAD7231F97B200F5C504 /* ZZCADisplayLinkHolder.m in Sources */,
+				FF9ABB16231FB7A300F5C504 /* NSObject+MJKeyValue.m in Sources */,
+				FF9ABB17231FB7A300F5C504 /* NSString+MJExtension.m in Sources */,
 				FF9ABAA7231F925800F5C504 /* ViewController.m in Sources */,
 				FF9ABAB2231F925B00F5C504 /* main.m in Sources */,
+				FF9ABB1B231FB7A300F5C504 /* MJFoundation.m in Sources */,
+				FF9ABB15231FB7A300F5C504 /* MJPropertyKey.m in Sources */,
+				FF9ABB12231FB7A300F5C504 /* MJPropertyType.m in Sources */,
+				FF9ABAE8231F9D2000F5C504 /* ZZLinesManager.m in Sources */,
+				FF9ABADA231F998100F5C504 /* ZZDrawBoard.m in Sources */,
+				FF9ABAF6231FA16A00F5C504 /* NSArray+Safe.m in Sources */,
+				FF9ABB19231FB7A300F5C504 /* NSObject+MJCoding.m in Sources */,
+				FF9ABAE5231F9C8800F5C504 /* ZZPaintPath.m in Sources */,
+				FF9ABADF231F99C900F5C504 /* ZZCommonModel.m in Sources */,
+				FF9ABB1A231FB7A300F5C504 /* NSObject+MJClass.m in Sources */,
+				FF9ABAFB231FB6F200F5C504 /* UIColor+ZZBaseControl.m in Sources */,
 				FF9ABAA4231F925800F5C504 /* AppDelegate.m in Sources */,
+				FF9ABAF7231FA16A00F5C504 /* NSDictionary+Safe.m in Sources */,
+				FF9ABB14231FB7A300F5C504 /* NSObject+MJProperty.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,7 +619,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BKB2W89RHK;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/ZZWhiteBoard/PrefixHeader.pch";
 				INFOPLIST_FILE = ZZWhiteBoard/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -452,7 +638,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BKB2W89RHK;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/ZZWhiteBoard/PrefixHeader.pch";
 				INFOPLIST_FILE = ZZWhiteBoard/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
