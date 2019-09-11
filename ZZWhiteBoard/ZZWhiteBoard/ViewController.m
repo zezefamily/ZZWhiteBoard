@@ -113,14 +113,6 @@
 {
     return 0;
 }
-- (void)touchEventWithType:(ZZDrawBoardPointType)eventType point:(CGPoint)point
-{
-    ZZDrawPointModel *sendPoint = [ZZDrawPointModel new];
-    sendPoint.x = (point.x) / self.drawBoard.frame.size.width;
-    sendPoint.y = (point.y) / self.drawBoard.frame.size.height;
-    sendPoint.type = eventType;
-    [self sendPoint:sendPoint lineConfig:_configModel];
-}
 - (void)touchEventWithPaintModel:(ZZPaintModel *)paintModel
 {
     if(paintModel.paintType == ZZDrawBoardPaintTypeLine){
@@ -130,7 +122,7 @@
         sendPoint.type = paintModel.touchType;
         [self sendPoint:sendPoint lineConfig:_configModel];
     }else{
-        //pencil closedCurve rectangle circle text
+        //pencil rectangle circle closedCurve text
         ZZCommonModel * commonModel = [ZZCommonModel instanceModel];
         commonModel.command = @"trail";
         commonModel.domain_id = 1;
@@ -138,7 +130,7 @@
         commonModel.user_id = self.user_id;
         commonModel.content = @{@"color":[NSNumber numberWithInt:_configModel.color],
                                 @"trail":@[],
-                                @"type":@[@"pencil",@"closedCurve",@"rectangle",@"circle",@"text"][paintModel.paintType],
+                                @"type":@[@"pencil",@"rectangle",@"circle",@"closedCurve",@"text"][paintModel.paintType],
                                 @"width":@"3",
                                 @"widthType":@"1",
                                 @"user_id":self.user_id,
@@ -156,6 +148,7 @@
         [self.linesManager addLineWithModel:model uid:model.user_id mode:ZZWhiteboardLinesMode_WhiteBoard page:0];
     }
 }
+#pragma mark - 普通线数据采集（start move end）
 - (void)sendPoint:(ZZDrawPointModel *)point lineConfig:(ZZDrawModel *)lineConfig
 {
     if(point.type == ZZDrawBoardPointTypeStart){

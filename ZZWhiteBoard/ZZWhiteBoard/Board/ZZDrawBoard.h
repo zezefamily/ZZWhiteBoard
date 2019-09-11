@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)drawBoardNeedUpdate;
 
-- (void)touchEventWithType:(ZZDrawBoardPointType)eventType point:(CGPoint)point;
+//- (void)touchEventWithType:(ZZDrawBoardPointType)eventType point:(CGPoint)point;
 
 - (void)touchEventWithPaintModel:(ZZPaintModel *)paintModel;
 
