@@ -8,9 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "ZZLinesManager.h"
+//pencil rectangle circle closedCurve text
+typedef NS_ENUM(NSInteger,ZZDrawBoardPaintType){
+    ZZDrawBoardPaintTypeLine = 0,            //线 pencil
+    ZZDrawBoardPaintTypeRectAngle = 1,       //矩形 rectangle
+    ZZDrawBoardPaintTypeCircle = 2,          //圆 circle
+    ZZDrawBoardPaintTypeClosedCurve = 3,     //闭合曲线 closedCurve
+    ZZDrawBoardPaintTypeText = 4             //文本 text
+};
+
 NS_ASSUME_NONNULL_BEGIN
 
 @class ZZLinesManager;
+@class ZZPaintModel;
 @protocol ZZDrawBoardDataSource <NSObject>
 
 - (ZZLinesManager *)drawBoardZZLinesManager;
@@ -19,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)touchEventWithType:(ZZDrawBoardPointType)eventType point:(CGPoint)point;
 
+- (void)touchEventWithPaintModel:(ZZPaintModel *)paintModel;
+
 @optional
 
 - (NSInteger)drawBoardCurrentMode;
@@ -26,8 +38,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSInteger)drawBoardCurrentPage;
 
 - (void)isDrawingFinish:(BOOL)finshed;
-
-
 
 @end
 
@@ -43,10 +53,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,assign) int colorIndex;
 
+@property (nonatomic,assign) ZZDrawBoardPaintType paintType;
 //添加一条远程的线
 - (void)addRemoteLineWithModel:(ZZDrawModel *)drawModel;
+@end
 
+@interface ZZPaintModel : NSObject
+
+@property (nonatomic,assign) ZZDrawBoardPaintType paintType;
+
+@property (nonatomic,assign) ZZDrawBoardPointType touchType;
+
+@property (nonatomic,assign) CGPoint defaultPoint;
+
+@property (nonatomic,assign) CGPoint startPoint;
+
+@property (nonatomic,assign) CGPoint endPoint;
+
+@property (nonatomic,assign) CGFloat radius;
 
 @end
+
 
 NS_ASSUME_NONNULL_END

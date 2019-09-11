@@ -10,11 +10,13 @@
 #import "ViewController.h"
 #import "ZZDrawBoard.h"
 #import "ZZLinesManager.h"
-@interface ViewController ()<ZZLinesManagerDelegate,ZZDrawBoardDataSource>
+#import "ZZToolBar.h"
+@interface ViewController ()<ZZLinesManagerDelegate,ZZDrawBoardDataSource,ZZToolBarDelegate>
 {
     ZZDrawModel *_configModel;
     NSMutableArray *_trails;
     NSDictionary *_lastPoint;
+    ZZToolBar *_toolBar;
 }
 @property (nonatomic,strong) ZZDrawBoard *drawBoard;
 @property (nonatomic,strong) ZZLinesManager *linesManager;
@@ -31,16 +33,68 @@
 }
 - (void)loadUI
 {
+    self.user_id = @"1234";
     self.view.backgroundColor = [UIColor lightGrayColor];
     _configModel = [[ZZDrawModel alloc]init];
     _configModel.type = @"pencil";
     _configModel.color = 4;
     _trails = [NSMutableArray array];
     self.drawBoard = [[ZZDrawBoard alloc]initWithFrame:CGRectMake(0, 20, 800, 600)];
-    self.linesManager = [[ZZLinesManager alloc]init];
+    self.drawBoard.dataSource = self;
+    self.drawBoard.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.drawBoard];
+    self.linesManager = [[ZZLinesManager alloc]init];
+    _toolBar = [[ZZToolBar alloc]initWithFrame:CGRectMake(0, self.drawBoard.frame.size.height+20, self.drawBoard.frame.size.width, 40)];
+    _toolBar.delegate = self;
+    [self.view addSubview:_toolBar];
 }
-
+#pragma mark - ZZToolBarDelegate
+- (void)toolButtonDidSelectedWithTag:(NSInteger)tag sender:(UIButton *)sender
+{
+    [self.drawBoard setIsEraser:NO];
+    switch (tag) {
+        case 0:
+        {
+            [self.drawBoard setPaintType:ZZDrawBoardPaintTypeLine];
+        }
+            break;
+        case 1:
+        {
+            [self.drawBoard setPaintType:ZZDrawBoardPaintTypeRectAngle];
+        }
+            break;
+        case 2:
+        {
+            [self.drawBoard setPaintType:ZZDrawBoardPaintTypeCircle];
+        }
+            break;
+        case 3:
+        {
+            [self.drawBoard setPaintType:ZZDrawBoardPaintTypeClosedCurve];
+        }
+            break;
+        case 4:
+        {
+            [self.drawBoard setPaintType:ZZDrawBoardPaintTypeLine];
+            [self.drawBoard setIsEraser:YES];
+        }
+            break;
+        case 5:
+        {
+            [self.linesManager cancelLastLine:self.user_id mode:ZZWhiteboardLinesMode_WhiteBoard page:0 completed:^(NSInteger index, NSInteger length, NSString * _Nonnull locations) {
+            }];
+        }
+            break;
+        case 6:
+        {
+            [self.linesManager clearAlllinesWithMode:ZZWhiteboardLinesMode_WhiteBoard page:0 completed:^(NSInteger index, NSInteger length, NSString * _Nonnull locations) {
+            }];
+        }
+            break;
+        default:
+            break;
+    }
+}
 #pragma mark - ZZDrawBoardDataSource
 - (ZZLinesManager *)drawBoardZZLinesManager
 {
@@ -51,6 +105,14 @@
 {
     return self.linesManager.needUpdate;
 }
+- (NSInteger)drawBoardCurrentMode
+{
+    return ZZWhiteboardLinesMode_WhiteBoard;
+}
+- (NSInteger)drawBoardCurrentPage
+{
+    return 0;
+}
 - (void)touchEventWithType:(ZZDrawBoardPointType)eventType point:(CGPoint)point
 {
     ZZDrawPointModel *sendPoint = [ZZDrawPointModel new];
@@ -59,7 +121,41 @@
     sendPoint.type = eventType;
     [self sendPoint:sendPoint lineConfig:_configModel];
 }
-
+- (void)touchEventWithPaintModel:(ZZPaintModel *)paintModel
+{
+    if(paintModel.paintType == ZZDrawBoardPaintTypeLine){
+        ZZDrawPointModel *sendPoint = [ZZDrawPointModel new];
+        sendPoint.x = (paintModel.defaultPoint.x) / self.drawBoard.frame.size.width;
+        sendPoint.y = (paintModel.defaultPoint.y) / self.drawBoard.frame.size.height;
+        sendPoint.type = paintModel.touchType;
+        [self sendPoint:sendPoint lineConfig:_configModel];
+    }else{
+        //pencil closedCurve rectangle circle text
+        ZZCommonModel * commonModel = [ZZCommonModel instanceModel];
+        commonModel.command = @"trail";
+        commonModel.domain_id = 1;
+        commonModel.domain = @"draw";
+        commonModel.user_id = self.user_id;
+        commonModel.content = @{@"color":[NSNumber numberWithInt:_configModel.color],
+                                @"trail":@[],
+                                @"type":@[@"pencil",@"closedCurve",@"rectangle",@"circle",@"text"][paintModel.paintType],
+                                @"width":@"3",
+                                @"widthType":@"1",
+                                @"user_id":self.user_id,
+                                @"startPoint":@{@"x":[NSNumber numberWithFloat:(paintModel.startPoint.x/self.drawBoard.frame.size.width)],
+                                                @"y":[NSNumber numberWithFloat:(paintModel.startPoint.y/self.drawBoard.frame.size.height)]},
+                                @"endPoint":@{@"x":[NSNumber numberWithFloat:(paintModel.endPoint.x/self.drawBoard.frame.size.width)],
+                                              @"y":[NSNumber numberWithFloat:(paintModel.endPoint.y/self.drawBoard.frame.size.height)]
+                                              }
+                                };
+        XXLog(@"\ncontent == \n%@",commonModel.content);
+        //本地存储
+        ZZDrawModel *model = [ZZDrawModel mj_objectWithKeyValues:commonModel.content];
+        model.user_id = self.user_id;
+        model.moveType = 1;
+        [self.linesManager addLineWithModel:model uid:model.user_id mode:ZZWhiteboardLinesMode_WhiteBoard page:0];
+    }
+}
 - (void)sendPoint:(ZZDrawPointModel *)point lineConfig:(ZZDrawModel *)lineConfig
 {
     if(point.type == ZZDrawBoardPointTypeStart){
@@ -110,14 +206,7 @@
     model.user_id = self.user_id;
     model.moveType = type;
     [self.linesManager addLineWithModel:model uid:model.user_id mode:ZZWhiteboardLinesMode_WhiteBoard page:0];
-    //    if(self.isBreaking == NO){
     //发送到远端
-//    NSString *jsonString = [[commonModel mj_JSONObject] mj_JSONString];
-//    //    [_server jxh_sendMessage:jsonString toUser:@""];
-//    //更新到共享对象
-//    NSString *key = (_whiteBoardMode == 0)?@"board":[NSString stringWithFormat:@"ppt:%ld",_whiteBoardPage];
-//    //    XXLog(@"Share_key == %@",key);
-//    [_server updateShareInfoWithBody:@{@1:key,@2:jsonString,@3:@"n",@4:@"upd"}];
-    //    }
+    //TODO...
 }
 @end

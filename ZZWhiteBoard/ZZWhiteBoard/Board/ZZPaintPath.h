@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)paintPathWithLineWidth:(CGFloat)width startPoint:(CGPoint)point lineColor:(UIColor *)lineColor;
 
-+ (instancetype)paintPathWithRect:(CGRect)rect lineWidth:(CGFloat)width;
++ (instancetype)paintPathWithOvalRect:(CGRect)rect lineWidth:(CGFloat)width;
 
 @end
 

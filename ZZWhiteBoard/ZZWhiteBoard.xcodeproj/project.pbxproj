@@ -35,6 +35,7 @@
 		FF9ABB19231FB7A300F5C504 /* NSObject+MJCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABB0F231FB7A300F5C504 /* NSObject+MJCoding.m */; };
 		FF9ABB1A231FB7A300F5C504 /* NSObject+MJClass.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABB10231FB7A300F5C504 /* NSObject+MJClass.m */; };
 		FF9ABB1B231FB7A300F5C504 /* MJFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABB11231FB7A300F5C504 /* MJFoundation.m */; };
+		FF9ABB1E231FD43E00F5C504 /* ZZToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABB1D231FD43E00F5C504 /* ZZToolBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +115,8 @@
 		FF9ABB0F231FB7A300F5C504 /* NSObject+MJCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJCoding.m"; sourceTree = "<group>"; };
 		FF9ABB10231FB7A300F5C504 /* NSObject+MJClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJClass.m"; sourceTree = "<group>"; };
 		FF9ABB11231FB7A300F5C504 /* MJFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJFoundation.m; sourceTree = "<group>"; };
+		FF9ABB1C231FD43E00F5C504 /* ZZToolBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZToolBar.h; sourceTree = "<group>"; };
+		FF9ABB1D231FD43E00F5C504 /* ZZToolBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZZToolBar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +181,8 @@
 				FF9ABAB0231F925B00F5C504 /* Info.plist */,
 				FF9ABAB1231F925B00F5C504 /* main.m */,
 				FF9ABAEC231FA09600F5C504 /* PrefixHeader.pch */,
+				FF9ABB1C231FD43E00F5C504 /* ZZToolBar.h */,
+				FF9ABB1D231FD43E00F5C504 /* ZZToolBar.m */,
 			);
 			path = ZZWhiteBoard;
 			sourceTree = "<group>";
@@ -438,6 +443,7 @@
 				FF9ABB15231FB7A300F5C504 /* MJPropertyKey.m in Sources */,
 				FF9ABB12231FB7A300F5C504 /* MJPropertyType.m in Sources */,
 				FF9ABAE8231F9D2000F5C504 /* ZZLinesManager.m in Sources */,
+				FF9ABB1E231FD43E00F5C504 /* ZZToolBar.m in Sources */,
 				FF9ABADA231F998100F5C504 /* ZZDrawBoard.m in Sources */,
 				FF9ABAF6231FA16A00F5C504 /* NSArray+Safe.m in Sources */,
 				FF9ABB19231FB7A300F5C504 /* NSObject+MJCoding.m in Sources */,

@@ -25,12 +25,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,copy) NSString *widthType;
 @property (nonatomic, assign) NSInteger lastLineIndex;     // 上一条次用户的画线在所有画线数组中的索引
 @property (nonatomic, assign) NSInteger lineIndex;         // 此画线在所有画线数组中的索引
-// 圆/椭圆
-@property (nonatomic,assign) float angle;
-@property (nonatomic,assign) float rectHeight;
-@property (nonatomic,assign) float rectWidth;
-@property (nonatomic,assign) float rectX;
-@property (nonatomic,assign) float rectY;
+//正圆、任意闭合曲线、矩形
+@property (nonatomic,assign) NSInteger paintType;
+@property (nonatomic,strong) NSDictionary *startPoint;
+@property (nonatomic,strong) NSDictionary *endPoint;
+@property (nonatomic,assign) CGFloat radius;
+//// 圆/椭圆
+//@property (nonatomic,assign) float angle;
+//@property (nonatomic,assign) float rectHeight;
+//@property (nonatomic,assign) float rectWidth;
+//@property (nonatomic,assign) float rectX;
+//@property (nonatomic,assign) float rectY;
 //文本
 @property (nonatomic,copy) NSString *text;
 @property (nonatomic,assign) float x;

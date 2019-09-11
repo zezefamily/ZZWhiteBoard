@@ -19,7 +19,7 @@
     [path moveToPoint:point];
     return path;
 }
-+ (instancetype)paintPathWithRect:(CGRect)rect lineWidth:(CGFloat)width
++ (instancetype)paintPathWithOvalRect:(CGRect)rect lineWidth:(CGFloat)width
 {
     ZZPaintPath *path = [ZZPaintPath bezierPathWithOvalInRect:rect];
     path.lineJoinStyle = kCGLineJoinRound;
@@ -27,6 +27,15 @@
     path.lineWidth = 3;
     return path;
 }
++ (instancetype)paintPathWithRect:(CGRect)rect lineWidth:(CGFloat)width
+{
+    ZZPaintPath *path = [ZZPaintPath bezierPathWithRect:rect];
+    path.lineJoinStyle = kCGLineJoinRound;
+    path.lineCapStyle = kCGLineCapRound;
+    path.lineWidth = 3;
+    return path;
+}
+
 
 - (void)setLineColor:(UIColor *)lineColor
 {
