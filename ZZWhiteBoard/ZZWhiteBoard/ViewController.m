@@ -37,7 +37,7 @@
     self.view.backgroundColor = [UIColor lightGrayColor];
     _configModel = [[ZZDrawModel alloc]init];
     _configModel.type = @"pencil";
-    _configModel.color = 4;
+    _configModel.color = 0;
     _trails = [NSMutableArray array];
     self.drawBoard = [[ZZDrawBoard alloc]initWithFrame:CGRectMake(0, 20, 800, 600)];
     self.drawBoard.dataSource = self;
@@ -98,6 +98,7 @@
 #pragma mark - ZZDrawBoardDataSource
 - (ZZLinesManager *)drawBoardZZLinesManager
 {
+    XXLog(@"drawBoardZZLinesManager.....");
     self.linesManager.needUpdate = NO;
     return self.linesManager;
 }
@@ -140,7 +141,7 @@
                                               @"y":[NSNumber numberWithFloat:(paintModel.endPoint.y/self.drawBoard.frame.size.height)]
                                               }
                                 };
-        XXLog(@"\ncontent == \n%@",commonModel.content);
+//        XXLog(@"\ncontent == \n%@",commonModel.content);
         //本地存储
         ZZDrawModel *model = [ZZDrawModel mj_objectWithKeyValues:commonModel.content];
         model.user_id = self.user_id;

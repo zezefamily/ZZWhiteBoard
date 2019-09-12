@@ -32,7 +32,7 @@
     [self stop];
     _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(onDisplayLink:)];
     if(@available(iOS 10.0,*)){
-        [_displayLink setPreferredFramesPerSecond:_frameInterval];
+        [_displayLink setPreferredFramesPerSecond:10];
     }else{
         [_displayLink setFrameInterval:_frameInterval];
     }

@@ -462,7 +462,6 @@
     rect.origin.y = startPoint.y;
     rect.size.width = endPoint.x - startPoint.x;
     rect.size.height = endPoint.y - startPoint.y;
-//    XXLog(@"rect.x = %f,y = %f,width = %f,height = %f",rect.origin.x,rect.origin.y,rect.size.width,rect.size.height);
     return rect;
 }
 #pragma mark - 根据起始点获取radius
@@ -473,7 +472,6 @@
     CGFloat a = endPoint.x - startPoint.x;
     CGFloat b = endPoint.y - startPoint.y;
     radius = hypotf(a, b);
-//    XXLog(@"\nstartP.x = %f,startP.y = %f\nendP.x = %f,endP.y = %f\nradius == %f",startPoint.x,startPoint.y,endPoint.x,endPoint.y,radius);
     return radius;
 }
 @end
