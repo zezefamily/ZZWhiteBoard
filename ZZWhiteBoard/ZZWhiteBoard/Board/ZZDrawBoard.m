@@ -282,6 +282,7 @@
             CGContextAddPath(context, path.CGPath);
         }
         CGContextStrokePath(context);
+        
         //5
         UIImage *previewImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
@@ -412,6 +413,8 @@
     }
     if(self.isEraser){
         path.isEraser = YES;
+        _myRealLayer.hidden = YES;
+//        [path strokeWithBlendMode:kCGBlendModeCopy alpha:1.0f];
     }
     _myRealLayer.strokeColor = path.lineColor.CGColor;
     _myRealLayer.path = _currentPath.CGPath;
@@ -420,7 +423,7 @@
 {
     self.drawState = ZZDrawBoardPointTypeMove;
     if(self.paintType == ZZDrawBoardPaintTypeLine){ //线
-       [_currentPath addLineToPoint:point];
+        [_currentPath addLineToPoint:point];
     }else if (self.paintType == ZZDrawBoardPaintTypeRectAngle){ //面
         _endPoint = point;
         _currentPath = [ZZPaintPath bezierPathWithRect:[self getRectWithStartPoint:_startPoint endPoint:point]];
@@ -432,7 +435,11 @@
         _endPoint = point;
         _currentPath = [ZZPaintPath paintPathWithOvalRect:[self getRectWithStartPoint:_startPoint endPoint:_endPoint] lineWidth:3];
     }
-    _myRealLayer.path = _currentPath.CGPath;
+    if(_currentPath.isEraser){
+        [self drawingImageWithPath:_currentPath completed:nil];
+    }else{
+        _myRealLayer.path = _currentPath.CGPath;
+    }
 }
 - (void)touchEndWithPoint:(CGPoint)point
 {

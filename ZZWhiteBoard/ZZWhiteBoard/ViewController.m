@@ -52,6 +52,7 @@
 - (void)toolButtonDidSelectedWithTag:(NSInteger)tag sender:(UIButton *)sender
 {
     [self.drawBoard setIsEraser:NO];
+    _configModel.type = @"";
     switch (tag) {
         case 0:
         {
@@ -77,6 +78,7 @@
         {
             [self.drawBoard setPaintType:ZZDrawBoardPaintTypeLine];
             [self.drawBoard setIsEraser:YES];
+            _configModel.type = @"eraser";
         }
             break;
         case 5:
@@ -190,7 +192,7 @@
     commonModel.user_id = self.user_id;
     commonModel.content = @{@"color":[NSNumber numberWithInt:lineConfig.color],
                             @"trail":trailBuffer,
-                            @"type":@"pencil",
+                            @"type":_configModel.type,
                             @"width":@"3",
                             @"widthType":@"1",
                             @"user_id":self.user_id
@@ -203,4 +205,23 @@
     //发送到远端
     //TODO...
 }
+
+/*
+ //测试个东西
+ SEL sel = @selector(testWithString:);
+ IMP imp = [self methodForSelector:sel];
+ if(imp == nil)return;
+ void (*func)(id,SEL,NSString*) = (void *)imp;
+ func(self,sel,@"测试文本");
+*/
+
+//- (void)testWithString:(NSString *)name
+//{
+//    XXLog(@"name ==== %@, cmd == %@",name,NSStringFromSelector(_cmd));
+//}
+//
+//void func(id _class,SEL _cmd,NSString *_name) {
+//    XXLog(@"name ==== %@",_name);
+//}
+
 @end

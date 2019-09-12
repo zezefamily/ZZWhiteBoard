@@ -36,6 +36,8 @@
 		FF9ABB1A231FB7A300F5C504 /* NSObject+MJClass.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABB10231FB7A300F5C504 /* NSObject+MJClass.m */; };
 		FF9ABB1B231FB7A300F5C504 /* MJFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABB11231FB7A300F5C504 /* MJFoundation.m */; };
 		FF9ABB1E231FD43E00F5C504 /* ZZToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABB1D231FD43E00F5C504 /* ZZToolBar.m */; };
+		FFE2D24D232A23B60077DF42 /* ZZNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = FFE2D24A232A23B50077DF42 /* ZZNotificationCenter.m */; };
+		FFE2D24E232A23B60077DF42 /* ZZNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = FFE2D24C232A23B60077DF42 /* ZZNotification.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +119,10 @@
 		FF9ABB11231FB7A300F5C504 /* MJFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJFoundation.m; sourceTree = "<group>"; };
 		FF9ABB1C231FD43E00F5C504 /* ZZToolBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZToolBar.h; sourceTree = "<group>"; };
 		FF9ABB1D231FD43E00F5C504 /* ZZToolBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZZToolBar.m; sourceTree = "<group>"; };
+		FFE2D249232A23B50077DF42 /* ZZNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZNotification.h; sourceTree = "<group>"; };
+		FFE2D24A232A23B50077DF42 /* ZZNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZNotificationCenter.m; sourceTree = "<group>"; };
+		FFE2D24B232A23B60077DF42 /* ZZNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZZNotificationCenter.h; sourceTree = "<group>"; };
+		FFE2D24C232A23B60077DF42 /* ZZNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZZNotification.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,6 +247,7 @@
 		FF9ABAE9231F9FBE00F5C504 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				FFE2D248232A23930077DF42 /* ZZNotification */,
 				FF9ABAFC231FB79100F5C504 /* MJExtension */,
 				FF9ABAF8231FB6D000F5C504 /* Colors */,
 				FF9ABAED231FA15400F5C504 /* SafeFoundation */,
@@ -298,6 +305,17 @@
 				FF9ABB08231FB7A200F5C504 /* NSString+MJExtension.m */,
 			);
 			path = MJExtension;
+			sourceTree = "<group>";
+		};
+		FFE2D248232A23930077DF42 /* ZZNotification */ = {
+			isa = PBXGroup;
+			children = (
+				FFE2D249232A23B50077DF42 /* ZZNotification.h */,
+				FFE2D24C232A23B60077DF42 /* ZZNotification.m */,
+				FFE2D24B232A23B60077DF42 /* ZZNotificationCenter.h */,
+				FFE2D24A232A23B50077DF42 /* ZZNotificationCenter.m */,
+			);
+			path = ZZNotification;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -430,6 +448,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFE2D24E232A23B60077DF42 /* ZZNotification.m in Sources */,
 				FF9ABAE2231F99DD00F5C504 /* ZZContentModel.m in Sources */,
 				FF9ABB13231FB7A300F5C504 /* MJExtensionConst.m in Sources */,
 				FF9ABAF5231FA16A00F5C504 /* NSData+Safe.m in Sources */,
@@ -454,6 +473,7 @@
 				FF9ABAA4231F925800F5C504 /* AppDelegate.m in Sources */,
 				FF9ABAF7231FA16A00F5C504 /* NSDictionary+Safe.m in Sources */,
 				FF9ABB14231FB7A300F5C504 /* NSObject+MJProperty.m in Sources */,
+				FFE2D24D232A23B60077DF42 /* ZZNotificationCenter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
