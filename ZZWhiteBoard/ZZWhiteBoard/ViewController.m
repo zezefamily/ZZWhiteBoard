@@ -13,13 +13,13 @@
 #import "ZZToolBar.h"
 @interface ViewController ()<ZZLinesManagerDelegate,ZZDrawBoardDataSource,ZZToolBarDelegate>
 {
-    ZZDrawModel *_configModel;
-    NSMutableArray *_trails;
-    NSDictionary *_lastPoint;
-    ZZToolBar *_toolBar;
+    ZZDrawModel *_configModel;  // 全局配置项
+    NSMutableArray *_trails;    // 普通线数据 全局收集池(集合)
+    NSDictionary *_lastPoint;   // 记录末尾的点
+    ZZToolBar *_toolBar;        // 工具条
 }
-@property (nonatomic,strong) ZZDrawBoard *drawBoard;
-@property (nonatomic,strong) ZZLinesManager *linesManager;
+@property (nonatomic,strong) ZZDrawBoard *drawBoard;     // 画板
+@property (nonatomic,strong) ZZLinesManager *linesManager;   // 画板数据管理器
 
 @property (nonatomic,copy) NSString *user_id;
 @end
@@ -205,7 +205,6 @@
     //发送到远端
     //TODO...
 }
-
 /*
  //测试个东西
  SEL sel = @selector(testWithString:);
@@ -214,7 +213,6 @@
  void (*func)(id,SEL,NSString*) = (void *)imp;
  func(self,sel,@"测试文本");
 */
-
 //- (void)testWithString:(NSString *)name
 //{
 //    XXLog(@"name ==== %@, cmd == %@",name,NSStringFromSelector(_cmd));

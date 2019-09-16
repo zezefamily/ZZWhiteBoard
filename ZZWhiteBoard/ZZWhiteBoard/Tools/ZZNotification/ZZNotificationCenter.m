@@ -21,7 +21,6 @@
     });
     return center;
 }
-
 - (instancetype)init
 {
     if(self == [super init]){
@@ -29,7 +28,6 @@
     }
     return self;
 }
-
 - (void)zz_addObserver:(id)observer selector:(SEL)aSelector name:(nullable NSString*)aName object:(nullable id)anObject
 {
     ZZNotification *notificaton = [[ZZNotification alloc]init];
@@ -39,13 +37,12 @@
     notificaton.anObject = anObject;
     [self.observers addObject:notificaton];
 }
-
 - (void)zz_postNotificationName:(NSString *)aName object:(nullable id)anObject
 {
     ZZNotification *currentNotification =  [self getNotificationWithName:aName];
+    currentNotification.anObject = anObject;
     [self zz_postNotification:currentNotification];
 }
-
 - (void)zz_postNotificationName:(NSString *)aName object:(nullable id)anObject userInfo:(nullable NSDictionary *)aUserInfo
 {
     ZZNotification *currentNotification =  [self getNotificationWithName:aName];
@@ -53,17 +50,14 @@
     currentNotification.userInfo = aUserInfo;
     [self zz_postNotification:currentNotification];
 }
-
 - (void)zz_removeObserver:(id)observer
 {
     [self.observers removeObject:[self getNotificationWithObserver:observer]];
 }
-
 - (void)zz_removeObserver:(id)observer name:(nullable NSString *)aName object:(nullable id)anObject
 {
     [self.observers removeObject:[self getNotificationWithObserver:observer]];
 }
-
 - (void)zz_postNotification:(ZZNotification *)notification
 {
     //方式一：(不够严谨)
@@ -94,7 +88,6 @@
     }
     return not;
 }
-
 - (ZZNotification *)getNotificationWithObserver:(id)observer
 {
     ZZNotification *not = nil;
