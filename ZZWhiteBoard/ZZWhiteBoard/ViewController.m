@@ -13,6 +13,7 @@
 #import "ZZToolBar.h"
 @interface ViewController ()<ZZLinesManagerDelegate,ZZDrawBoardDataSource,ZZToolBarDelegate>
 {
+    UIImageView *_bgImageView;
     ZZDrawModel *_configModel;  // 全局配置项
     NSMutableArray *_trails;    // 普通线数据 全局收集池(集合)
     NSDictionary *_lastPoint;   // 记录末尾的点
@@ -33,6 +34,10 @@
 }
 - (void)loadUI
 {
+    _bgImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 20, 800, 600)];
+    _bgImageView.image = [UIImage imageNamed:@"bgImage"];
+    [self.view addSubview:_bgImageView];
+    
     self.user_id = @"1234";
     self.view.backgroundColor = [UIColor lightGrayColor];
     _configModel = [[ZZDrawModel alloc]init];
@@ -41,7 +46,7 @@
     _trails = [NSMutableArray array];
     self.drawBoard = [[ZZDrawBoard alloc]initWithFrame:CGRectMake(0, 20, 800, 600)];
     self.drawBoard.dataSource = self;
-    self.drawBoard.backgroundColor = [UIColor whiteColor];
+//    self.drawBoard.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.drawBoard];
     self.linesManager = [[ZZLinesManager alloc]init];
     _toolBar = [[ZZToolBar alloc]initWithFrame:CGRectMake(0, self.drawBoard.frame.size.height+20, self.drawBoard.frame.size.width, 40)];

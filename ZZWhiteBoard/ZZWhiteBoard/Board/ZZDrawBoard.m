@@ -27,6 +27,7 @@
 @property(nonatomic, strong) NSArray *colorArr;
 @end
 @implementation ZZDrawBoard
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if(self == [super initWithFrame:frame]){

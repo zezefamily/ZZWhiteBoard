@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FF359FD12334CAE70038581B /* ui-structure.png in Resources */ = {isa = PBXBuildFile; fileRef = FF359FCD2334CAE60038581B /* ui-structure.png */; };
+		FF359FD22334CAE70038581B /* comparison.png in Resources */ = {isa = PBXBuildFile; fileRef = FF359FCE2334CAE60038581B /* comparison.png */; };
+		FF359FD32334CAE70038581B /* screenshot1.png in Resources */ = {isa = PBXBuildFile; fileRef = FF359FCF2334CAE60038581B /* screenshot1.png */; };
+		FF359FD42334CAE70038581B /* screenshot.png in Resources */ = {isa = PBXBuildFile; fileRef = FF359FD02334CAE60038581B /* screenshot.png */; };
 		FF9ABAA4231F925800F5C504 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABAA3231F925800F5C504 /* AppDelegate.m */; };
 		FF9ABAA7231F925800F5C504 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABAA6231F925800F5C504 /* ViewController.m */; };
 		FF9ABAAA231F925800F5C504 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF9ABAA8231F925800F5C504 /* Main.storyboard */; };
@@ -58,6 +62,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FF359FCD2334CAE60038581B /* ui-structure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ui-structure.png"; sourceTree = "<group>"; };
+		FF359FCE2334CAE60038581B /* comparison.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comparison.png; sourceTree = "<group>"; };
+		FF359FCF2334CAE60038581B /* screenshot1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot1.png; sourceTree = "<group>"; };
+		FF359FD02334CAE60038581B /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
 		FF9ABA9F231F925800F5C504 /* ZZWhiteBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZZWhiteBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF9ABAA2231F925800F5C504 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FF9ABAA3231F925800F5C504 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -183,6 +191,10 @@
 				FF9ABAA6231F925800F5C504 /* ViewController.m */,
 				FF9ABAA8231F925800F5C504 /* Main.storyboard */,
 				FF9ABAAB231F925B00F5C504 /* Assets.xcassets */,
+				FF359FCE2334CAE60038581B /* comparison.png */,
+				FF359FD02334CAE60038581B /* screenshot.png */,
+				FF359FCF2334CAE60038581B /* screenshot1.png */,
+				FF359FCD2334CAE60038581B /* ui-structure.png */,
 				FF9ABAAD231F925B00F5C504 /* LaunchScreen.storyboard */,
 				FF9ABAB0231F925B00F5C504 /* Info.plist */,
 				FF9ABAB1231F925B00F5C504 /* main.m */,
@@ -423,7 +435,11 @@
 			files = (
 				FF9ABAAF231F925B00F5C504 /* LaunchScreen.storyboard in Resources */,
 				FF9ABAAC231F925B00F5C504 /* Assets.xcassets in Resources */,
+				FF359FD22334CAE70038581B /* comparison.png in Resources */,
+				FF359FD32334CAE70038581B /* screenshot1.png in Resources */,
 				FF9ABAAA231F925800F5C504 /* Main.storyboard in Resources */,
+				FF359FD12334CAE70038581B /* ui-structure.png in Resources */,
+				FF359FD42334CAE70038581B /* screenshot.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
