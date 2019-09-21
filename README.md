@@ -1,4 +1,4 @@
-# ZZWhiteBoard
+# ZZWhiteBoard（待完善）
 # 简介
 在线教育场景下高效画板
 # 截图
