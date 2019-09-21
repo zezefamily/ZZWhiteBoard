@@ -3,6 +3,7 @@
 在线教育场景下高效画板
 # 截图
 # 主要类
-ZZDrawBoard，ZZLinesManager
+ZZDrawBoard （实时画布）
+ZZLinesManager (历史数据管理器)
 # 结构
 # 对比
