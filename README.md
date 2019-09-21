@@ -2,7 +2,7 @@
 # 简介
 在线教育场景下高效画板
 # 截图
-![Image text](screenshot.png,screenshot1.png)
+![Image text](screenshot.png)
 ![Image text](screenshot1.png)
 # 主要类
 ZZDrawBoard （实时画布）
