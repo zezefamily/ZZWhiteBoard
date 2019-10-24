@@ -11,6 +11,8 @@
 		FF359FD22334CAE70038581B /* comparison.png in Resources */ = {isa = PBXBuildFile; fileRef = FF359FCE2334CAE60038581B /* comparison.png */; };
 		FF359FD32334CAE70038581B /* screenshot1.png in Resources */ = {isa = PBXBuildFile; fileRef = FF359FCF2334CAE60038581B /* screenshot1.png */; };
 		FF359FD42334CAE70038581B /* screenshot.png in Resources */ = {isa = PBXBuildFile; fileRef = FF359FD02334CAE60038581B /* screenshot.png */; };
+		FF4DEE01235FF0F100490839 /* ZZLayerDrawBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = FF4DEE00235FF0F100490839 /* ZZLayerDrawBoard.m */; };
+		FF4DEE07235FF2FE00490839 /* ZZPaintModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FF4DEE06235FF2FE00490839 /* ZZPaintModel.m */; };
 		FF9ABAA4231F925800F5C504 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABAA3231F925800F5C504 /* AppDelegate.m */; };
 		FF9ABAA7231F925800F5C504 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9ABAA6231F925800F5C504 /* ViewController.m */; };
 		FF9ABAAA231F925800F5C504 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF9ABAA8231F925800F5C504 /* Main.storyboard */; };
@@ -66,6 +68,11 @@
 		FF359FCE2334CAE60038581B /* comparison.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comparison.png; sourceTree = "<group>"; };
 		FF359FCF2334CAE60038581B /* screenshot1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot1.png; sourceTree = "<group>"; };
 		FF359FD02334CAE60038581B /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
+		FF4DEDFE235FEFEE00490839 /* BoardDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoardDefine.h; sourceTree = "<group>"; };
+		FF4DEDFF235FF0F100490839 /* ZZLayerDrawBoard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZLayerDrawBoard.h; sourceTree = "<group>"; };
+		FF4DEE00235FF0F100490839 /* ZZLayerDrawBoard.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZZLayerDrawBoard.m; sourceTree = "<group>"; };
+		FF4DEE05235FF2FE00490839 /* ZZPaintModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZPaintModel.h; sourceTree = "<group>"; };
+		FF4DEE06235FF2FE00490839 /* ZZPaintModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZZPaintModel.m; sourceTree = "<group>"; };
 		FF9ABA9F231F925800F5C504 /* ZZWhiteBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZZWhiteBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF9ABAA2231F925800F5C504 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FF9ABAA3231F925800F5C504 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -232,6 +239,9 @@
 				FF9ABAD9231F998100F5C504 /* ZZDrawBoard.m */,
 				FF9ABAE3231F9C8800F5C504 /* ZZPaintPath.h */,
 				FF9ABAE4231F9C8800F5C504 /* ZZPaintPath.m */,
+				FF4DEDFE235FEFEE00490839 /* BoardDefine.h */,
+				FF4DEDFF235FF0F100490839 /* ZZLayerDrawBoard.h */,
+				FF4DEE00235FF0F100490839 /* ZZLayerDrawBoard.m */,
 			);
 			path = Board;
 			sourceTree = "<group>";
@@ -243,6 +253,8 @@
 				FF9ABADE231F99C800F5C504 /* ZZCommonModel.m */,
 				FF9ABAE0231F99DD00F5C504 /* ZZContentModel.h */,
 				FF9ABAE1231F99DD00F5C504 /* ZZContentModel.m */,
+				FF4DEE05235FF2FE00490839 /* ZZPaintModel.h */,
+				FF4DEE06235FF2FE00490839 /* ZZPaintModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -465,6 +477,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FFE2D24E232A23B60077DF42 /* ZZNotification.m in Sources */,
+				FF4DEE01235FF0F100490839 /* ZZLayerDrawBoard.m in Sources */,
 				FF9ABAE2231F99DD00F5C504 /* ZZContentModel.m in Sources */,
 				FF9ABB13231FB7A300F5C504 /* MJExtensionConst.m in Sources */,
 				FF9ABAF5231FA16A00F5C504 /* NSData+Safe.m in Sources */,
@@ -482,6 +495,7 @@
 				FF9ABADA231F998100F5C504 /* ZZDrawBoard.m in Sources */,
 				FF9ABAF6231FA16A00F5C504 /* NSArray+Safe.m in Sources */,
 				FF9ABB19231FB7A300F5C504 /* NSObject+MJCoding.m in Sources */,
+				FF4DEE07235FF2FE00490839 /* ZZPaintModel.m in Sources */,
 				FF9ABAE5231F9C8800F5C504 /* ZZPaintPath.m in Sources */,
 				FF9ABADF231F99C900F5C504 /* ZZCommonModel.m in Sources */,
 				FF9ABB1A231FB7A300F5C504 /* NSObject+MJClass.m in Sources */,

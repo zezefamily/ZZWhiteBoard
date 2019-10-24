@@ -11,6 +11,7 @@
 #import "ZZDrawBoard.h"
 #import "ZZLinesManager.h"
 #import "ZZToolBar.h"
+#import "ZZLayerDrawBoard.h"
 @interface ViewController ()<ZZLinesManagerDelegate,ZZDrawBoardDataSource,ZZToolBarDelegate>
 {
     UIImageView *_bgImageView;
@@ -19,7 +20,7 @@
     NSDictionary *_lastPoint;   // 记录末尾的点
     ZZToolBar *_toolBar;        // 工具条
 }
-@property (nonatomic,strong) ZZDrawBoard *drawBoard;     // 画板
+@property (nonatomic,strong) ZZLayerDrawBoard *drawBoard;     // 画板
 @property (nonatomic,strong) ZZLinesManager *linesManager;   // 画板数据管理器
 
 @property (nonatomic,copy) NSString *user_id;
@@ -44,7 +45,7 @@
     _configModel.type = @"pencil";
     _configModel.color = 0;
     _trails = [NSMutableArray array];
-    self.drawBoard = [[ZZDrawBoard alloc]initWithFrame:CGRectMake(0, 20, 800, 600)];
+    self.drawBoard = [[ZZLayerDrawBoard alloc]initWithFrame:CGRectMake(0, 20, 800, 600)];
     self.drawBoard.dataSource = self;
 //    self.drawBoard.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.drawBoard];

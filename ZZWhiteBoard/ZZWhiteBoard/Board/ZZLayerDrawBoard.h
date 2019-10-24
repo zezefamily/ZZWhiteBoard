@@ -1,25 +1,15 @@
 //
-//  ZZDrawBoard.h
+//  ZZLayerDrawBoard.h
 //  ZZWhiteBoard
 //
-//  Created by 泽泽 on 2019/9/4.
+//  Created by 泽泽 on 2019/10/23.
 //  Copyright © 2019 泽泽. All rights reserved.
 //
-
 
 #import <UIKit/UIKit.h>
 #import "ZZLinesManager.h"
 #import "BoardDefine.h"
 #import "ZZPaintModel.h"
-//pencil rectangle circle closedCurve text
-//typedef NS_ENUM(NSInteger,ZZDrawBoardPaintType){
-//    ZZDrawBoardPaintTypeLine = 0,            //线 pencil
-//    ZZDrawBoardPaintTypeRectAngle = 1,       //矩形 rectangle
-//    ZZDrawBoardPaintTypeCircle = 2,          //圆 circle
-//    ZZDrawBoardPaintTypeClosedCurve = 3,     //闭合曲线 closedCurve
-//    ZZDrawBoardPaintTypeText = 4             //文本 text
-//};
-
 NS_ASSUME_NONNULL_BEGIN
 
 @class ZZLinesManager;
@@ -44,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface ZZDrawBoard : UIImageView
+@interface ZZLayerDrawBoard : UIView
 
 @property (nonatomic,weak) id<ZZDrawBoardDataSource> dataSource;
 
@@ -59,6 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) ZZDrawBoardPaintType paintType;
 //添加一条远程的线
 - (void)addRemoteLineWithModel:(ZZDrawModel *)drawModel;
+
 @end
 
 NS_ASSUME_NONNULL_END

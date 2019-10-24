@@ -1,32 +1,39 @@
 //
-//  ZZDrawBoard.m
+//  ZZLayerDrawBoard.m
 //  ZZWhiteBoard
 //
-//  Created by 泽泽 on 2019/9/4.
+//  Created by 泽泽 on 2019/10/23.
 //  Copyright © 2019 泽泽. All rights reserved.
-//  UIBzierPath+CoreGraphics
+//
 
-#import "ZZDrawBoard.h"
+#import "ZZLayerDrawBoard.h"
 #import "ZZCADisplayLinkHolder.h"
 #import "ZZLinesManager.h"
 #import "ZZPaintPath.h"
-@interface ZZDrawBoard ()<ZZCADisplayLinkHolderDelegate>
+
+@interface ZZLayerDrawBoard ()<ZZCADisplayLinkHolderDelegate>
 {
     BOOL _isDrawingFinish;
+    BOOL _isTouchLayer;
     ZZPaintModel *_currentPaintModel;
     CGPoint _startPoint;
     CGPoint _endPoint;
     CGFloat _radius;
+    CAShapeLayer *_bgContentLayer;
+    CGAffineTransform _currentTransfrom;
 }
 @property (nonatomic,assign) ZZDrawBoardPointType drawState;
 @property (nonatomic,strong) UIImage *realImage;
 @property (nonatomic,strong) ZZPaintPath *currentPath;
 @property (nonatomic, strong) ZZCADisplayLinkHolder  *displayLinkHolder;     // 渲染的计时器
 @property (nonatomic,strong) CAShapeLayer *myRealLayer;  // 本地实时层
+@property (nonatomic,strong) CAShapeLayer *shapeLayer;
 @property (nonatomic,strong) NSMutableArray *bufferLines;  // 当前page所有线条
 @property(nonatomic, strong) NSArray *colorArr;
+@property (nonatomic,strong) NSMutableArray *allLayerArray;
 @end
-@implementation ZZDrawBoard
+
+@implementation ZZLayerDrawBoard
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -39,24 +46,24 @@
         self.strokeColor = [UIColor blackColor];
         self.strokeWidth = 3.0f;
         ((CAShapeLayer *)self.layer).masksToBounds = YES;
+//        self.layer.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
         //拉伸过滤
         self.layer.magnificationFilter = kCAFilterNearest;
         _displayLinkHolder = [ZZCADisplayLinkHolder new];
         [_displayLinkHolder setFrameInterval:1];
         [_displayLinkHolder startCADisplayLinkWithDelegate:self];
         self.paintType = ZZDrawBoardPaintTypeLine;
-        //自己的实时绘制层
-        _myRealLayer = [CAShapeLayer layer];
-        _myRealLayer.backgroundColor = [UIColor clearColor].CGColor;
-        _myRealLayer.fillColor = [UIColor clearColor].CGColor;
-        _myRealLayer.lineCap = kCALineCapRound;
-        _myRealLayer.lineJoin = kCALineJoinRound;
-        _myRealLayer.lineWidth = self.strokeWidth;
-        [self.layer addSublayer:_myRealLayer];
-        _myRealLayer.hidden = YES;
+        if(_bgContentLayer == nil){
+            _bgContentLayer = [CAShapeLayer new];
+//            _bgContentLayer.backgroundColor = [UIColor whiteColor].CGColor;
+//            _bgContentLayer.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
+            [self.layer addSublayer:_bgContentLayer];
+        }
         self.bufferLines = [NSMutableArray array];
-        
+        self.allLayerArray = [NSMutableArray array];
         _currentPaintModel = [[ZZPaintModel alloc]init];
+        
+        _currentTransfrom = CGAffineTransformIdentity;
     }
     return self;
 }
@@ -82,6 +89,7 @@
         }
         [self reDrawWithLines:drawLines];
     }
+    
 }
 
 #pragma mark - 重新绘制当前Page的所有线条
@@ -92,23 +100,34 @@
         [self.dataSource isDrawingFinish:_isDrawingFinish];
     }
     [self clearAllSubLayers];
+    
+    if(_bgContentLayer == nil){
+        _bgContentLayer = [CAShapeLayer new];
+        [self.layer addSublayer:_bgContentLayer];
+    }
     for(int i = 0;i<linesModelArray.count;i++){
         ZZDrawModel *draw = [linesModelArray objectAtIndex:i];
         ZZPaintPath *path = [self getLinePathWithModel:draw];
         path.lineColor = [self getStoreColorWithIndex:draw.color];
-        if(path){
-            [self.bufferLines addObject:path];
-        }
+        path.lineWidth = 3;
+        CAShapeLayer *layer = [self addLineLayerWithPath:path lineColor:draw.color];
+        layer.bounds = path.bounds;
+        layer.frame = path.bounds;
+        [_bgContentLayer addSublayer:layer];
+//        if(path){
+//            [self.bufferLines addObject:path];
+//        }
+        
     }
-    __weak typeof (self) weakSelf = self;
-    [self reload_drawingImageWithPath:self.bufferLines completed:^(BOOL finish) {
-        if(finish){
-            self->_isDrawingFinish = YES;
-            if([weakSelf.dataSource respondsToSelector:@selector(isDrawingFinish:)]){
-                [weakSelf.dataSource isDrawingFinish:self->_isDrawingFinish];
-            }
-        }
-    }];
+//    __weak typeof (self) weakSelf = self;
+//    [self reload_drawingImageWithPath:self.bufferLines completed:^(BOOL finish) {
+//        if(finish){
+//            self->_isDrawingFinish = YES;
+//            if([weakSelf.dataSource respondsToSelector:@selector(isDrawingFinish:)]){
+//                [weakSelf.dataSource isDrawingFinish:self->_isDrawingFinish];
+//            }
+//        }
+//    }];
 }
 
 - (NSArray *)getStartEndPointsWithLineModel:(ZZDrawModel *)lineModel
@@ -173,6 +192,7 @@
         }
     }
     path.lineColor = [self getStoreColorWithIndex:lineModel.color];
+    path.usesEvenOddFillRule = YES;
     return path;
 }
 #pragma mark - 根据路径获取一个shapelayer
@@ -183,119 +203,32 @@
     layer.fillColor = [UIColor clearColor].CGColor;
     layer.lineCap = kCALineCapRound;
     layer.lineJoin = kCALineJoinRound;
-    layer.strokeColor = [UIColor redColor].CGColor;
-    layer.lineWidth = path.lineWidth;
+    layer.strokeColor = path.lineColor.CGColor;
+    layer.lineWidth = 3;
     layer.path = path.CGPath;
     return layer;
 }
 #pragma mark - 清理当前视图上的所有subLayer
 - (void)clearAllSubLayers
 {
-    self.realImage = nil;
-    self.layer.contents = nil;
-    [self.bufferLines removeAllObjects];
+//    if(self.allLayerArray.count == 0){return;}
+//    for (CAShapeLayer *layer in self.allLayerArray) {
+//        [layer removeFromSuperlayer];
+//    }
+//    [self.allLayerArray removeAllObjects];
+    _bgContentLayer.sublayers = nil;
+    [_bgContentLayer removeFromSuperlayer];
+    _bgContentLayer = nil;
+    
 }
 #pragma mark - 添加一条远程的线
 - (void)addRemoteLineWithModel:(ZZDrawModel *)drawModel
 {
     ZZPaintPath *path = [self getLinePathWithModel:drawModel];
-    [self drawingImageWithPath:path completed:nil];
-}
-
-#pragma mark - 重绘
-- (void)reload_drawingImageWithPath:(NSMutableArray<ZZPaintPath *> *)paths completed:(void (^)(BOOL finish))completed
-{
-    @autoreleasepool{
-        //1
-        UIGraphicsBeginImageContext(self.bounds.size);
-        //2
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        CGContextClearRect(context, self.bounds);
-        [[UIColor clearColor]setFill];
-        UIRectFill(self.bounds);
-        CGContextSetLineCap(context, kCGLineCapRound);
-        CGContextSetLineJoin(context, kCGLineJoinRound);
-        //3
-        if(_realImage){
-            [_realImage drawInRect:self.bounds];
-        }
-        //4
-        for(int i = 0;i<paths.count;i++){
-            ZZPaintPath *path = [paths objectAtIndex:i];
-            if(path.paintPathType == 3){
-                //文本
-                [path.text drawAtPoint:path.textPoint withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:path.fontsize],NSForegroundColorAttributeName:path.lineColor}];
-            }else{
-                if(path.isEraser == YES){
-                    CGContextSetBlendMode(context, kCGBlendModeClear);
-                    CGContextSetLineWidth(context, 15.0f);
-                }else{
-                    CGContextSetBlendMode(context, kCGBlendModeNormal);
-                    CGContextSetLineWidth(context, 3.0f);
-                }
-                CGContextSetStrokeColorWithColor(context, path.lineColor.CGColor);
-                CGContextAddPath(context, path.CGPath);
-                
-            }
-            CGContextStrokePath(context);
-        }
-        //5
-        UIImage *previewImage = UIGraphicsGetImageFromCurrentImageContext();
-        self.realImage = previewImage;
-        UIGraphicsEndImageContext();
-        //6
-        _realImage = previewImage;
-        self.layer.contents = (__bridge id _Nullable)(_realImage.CGImage);
-    }
-    if(completed){
-        completed(YES);
-    }
-}
-
-#pragma mark - 绘制线条
-- (void)drawingImageWithPath:(ZZPaintPath *)path completed:(void (^)(BOOL finish))completed
-{
-    @autoreleasepool{
-        //1
-        UIGraphicsBeginImageContext(self.bounds.size);
-        //2
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        [[UIColor clearColor]setFill];
-        UIRectFill(self.bounds);
-        CGContextSetLineCap(context, kCGLineCapRound);
-        CGContextSetLineJoin(context, kCGLineJoinRound);
-        //3
-        if(_realImage){
-            [_realImage drawInRect:self.bounds];
-        }
-        //4
-        if(path.paintPathType == 3){
-            //文本
-            [path.text drawAtPoint:path.textPoint withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:path.fontsize],NSForegroundColorAttributeName:path.lineColor}];
-        }else{
-            //线条
-            if(path.isEraser == YES){
-                CGContextSetBlendMode(context, kCGBlendModeClear);
-                CGContextSetLineWidth(context, 15.0f);
-            }else{
-                CGContextSetBlendMode(context, kCGBlendModeNormal);
-                CGContextSetLineWidth(context, 3.0f);
-            }
-            CGContextSetStrokeColorWithColor(context, path.lineColor.CGColor);
-            CGContextAddPath(context, path.CGPath);
-        }
-        CGContextStrokePath(context);
-        
-        //5
-        UIImage *previewImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        //6
-        _realImage = previewImage;
-        self.layer.contents = (__bridge id _Nullable)(_realImage.CGImage);
-    }
-    if(completed){
-        completed(YES);
-    }
+    path.lineColor = [self getStoreColorWithIndex:drawModel.color];
+    CAShapeLayer *layer = [self addLineLayerWithPath:path lineColor:drawModel.color];
+    [self.allLayerArray addObject:layer];
+    [_bgContentLayer addSublayer:layer];
 }
 
 - (UIColor *)getStoreColorWithIndex:(int)colorIndex
@@ -339,7 +272,7 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     CGPoint p = [[touches anyObject]locationInView:self];
-    [self touchBeganWithPoint:p];
+    [self touchBeganWithPoint:p touches:touches withEvent:event];
     _currentPaintModel.paintType = self.paintType;
     if(self.paintType == ZZDrawBoardPaintTypeLine){
         _currentPaintModel.touchType = ZZDrawBoardPointTypeStart;
@@ -352,7 +285,7 @@
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     CGPoint p = [[touches anyObject]locationInView:self];
-    [self touchMoveWithPoint:p];
+    [self touchMoveWithPoint:p touches:touches withEvent:event];
     if(self.paintType == ZZDrawBoardPaintTypeLine){
         _currentPaintModel.touchType = ZZDrawBoardPointTypeMove;
         _currentPaintModel.defaultPoint = p;
@@ -364,7 +297,7 @@
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     CGPoint p = [[touches anyObject]locationInView:self];
-    [self touchEndWithPoint:p];
+    [self touchEndWithPoint:p touches:touches withEvent:event];
     if(self.paintType == ZZDrawBoardPaintTypeLine){
         _currentPaintModel.touchType = ZZDrawBoardPointTypeEnd;
         _currentPaintModel.defaultPoint = p;
@@ -386,9 +319,18 @@
     _radius = 0;
     _currentPath = nil;
 }
-- (void)touchBeganWithPoint:(CGPoint)point
+- (void)touchBeganWithPoint:(CGPoint)point touches:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    _myRealLayer.hidden = NO;
+    NSLog(@"curP====%@",NSStringFromCGPoint(point));
+    CAShapeLayer *selectLayer = [_bgContentLayer hitTest:point];
+    XXLog(@"\nselectLayer == %@",selectLayer);
+    if(selectLayer != nil && selectLayer != _bgContentLayer){
+        _isTouchLayer = YES;
+        selectLayer.strokeColor = [UIColor greenColor].CGColor;
+        _shapeLayer = selectLayer;
+        return;
+    }
+//    _myRealLayer.hidden = NO;
     self.drawState = ZZDrawBoardPointTypeStart;
     UIColor *color = [self getStoreColorWithIndex:self.colorIndex];
     ZZPaintPath *path;
@@ -417,19 +359,34 @@
     if(self.isEraser){
         path.isEraser = YES;
         _myRealLayer.hidden = YES;
-//        [path strokeWithBlendMode:kCGBlendModeCopy alpha:1.0f];
+        //        [path strokeWithBlendMode:kCGBlendModeCopy alpha:1.0f];
     }
-    _myRealLayer.strokeColor = path.lineColor.CGColor;
-    _myRealLayer.path = _currentPath.CGPath;
+    CAShapeLayer *layer = [self addLineLayerWithPath:path lineColor:self.colorIndex];
+    [self.allLayerArray addObject:layer];
+    [_bgContentLayer addSublayer:layer];
+    _shapeLayer = layer;
+    
 }
-- (void)touchMoveWithPoint:(CGPoint)point
+- (void)touchMoveWithPoint:(CGPoint)point touches:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
+    NSLog(@"curP====%@",NSStringFromCGPoint(point));
+    if(_isTouchLayer){
+        CGPoint prePoint = [[touches anyObject]previousLocationInView:self];
+        CGFloat offsetX = point.x - prePoint.x;
+        CGFloat offsetY = point.y - prePoint.y;
+        NSLog(@"curP====%@",NSStringFromCGPoint(point));
+        NSLog(@"preP====%@",NSStringFromCGPoint(prePoint));
+        NSLog(@"offsetX == %f,offsetY == %f",offsetY,offsetY);
+        _shapeLayer.affineTransform = CGAffineTransformTranslate(_shapeLayer.affineTransform,offsetX,offsetY);
+        return;
+    }
     self.drawState = ZZDrawBoardPointTypeMove;
     if(self.paintType == ZZDrawBoardPaintTypeLine){ //线
         [_currentPath addLineToPoint:point];
     }else if (self.paintType == ZZDrawBoardPaintTypeRectAngle){ //面
         _endPoint = point;
         _currentPath = [ZZPaintPath bezierPathWithRect:[self getRectWithStartPoint:_startPoint endPoint:point]];
+//        _shapeLayer.frame = [self getRectWithStartPoint:_startPoint endPoint:point];
     }else if (self.paintType == ZZDrawBoardPaintTypeCircle){ //圆
         _endPoint = point;
         _radius = [self getRadiusWithStartPoint:_startPoint endPoint:_endPoint];
@@ -439,13 +396,17 @@
         _currentPath = [ZZPaintPath paintPathWithOvalRect:[self getRectWithStartPoint:_startPoint endPoint:_endPoint] lineWidth:3];
     }
     if(_currentPath.isEraser){
-        [self drawingImageWithPath:_currentPath completed:nil];
     }else{
-        _myRealLayer.path = _currentPath.CGPath;
+        _shapeLayer.path = _currentPath.CGPath;
+        _shapeLayer.lineWidth = 3;
     }
 }
-- (void)touchEndWithPoint:(CGPoint)point
+- (void)touchEndWithPoint:(CGPoint)point touches:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
+    if(_isTouchLayer){
+        _isTouchLayer = NO;
+        return;
+    }
     self.drawState = ZZDrawBoardPointTypeEnd;
     if(self.paintType == ZZDrawBoardPaintTypeLine){ //线
         [_currentPath addLineToPoint:point];
@@ -460,8 +421,10 @@
         _endPoint = point;
         _currentPath = [ZZPaintPath paintPathWithOvalRect:[self getRectWithStartPoint:_startPoint endPoint:_endPoint] lineWidth:3];
     }
-    _myRealLayer.hidden = YES;
-    [self drawingImageWithPath:_currentPath completed:nil];
+    _shapeLayer.path = _currentPath.CGPath;
+    _shapeLayer.frame = _currentPath.bounds;
+    _shapeLayer.bounds = _currentPath.bounds;
+    _shapeLayer.lineWidth = 3;
 }
 
 #pragma mark - 根据起始点获取Rect

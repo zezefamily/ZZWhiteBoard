@@ -17,6 +17,19 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+//    let username = "customerId"
+//    let password = "customerCertificate"
+//    let loginString = String(format: "%@:%@", username, password)
+//    let loginData = loginString.data(using: String.Encoding.utf8)! /
+    // base64LoginString 就是你要的 Authorization 值，是一个使用 Base64 算法编码的 LoginString
+//    let base64LoginString = loginData.base64EncodedString()
+    //NzRlYjM4NTBiNTU4NGQ1NWExNDBhNWIwZDNhMWZjZWQ6ODFlMGM3MjkyNTQ5NGZiZmFjMmEzZDUxMDU2NjVhY2Y=
+    NSString *str = @"74eb3850b5584d55a140a5b0d3a1fced:81e0c72925494fbfac2a3d5105665acf";
+    NSData  *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *baseStr =  [data base64EncodedStringWithOptions:0];
+    XXLog(@"baseStr == %@",baseStr);
+    
     return YES;
 }
 

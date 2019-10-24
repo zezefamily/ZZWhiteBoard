@@ -23,21 +23,10 @@
 #import <Foundation/Foundation.h>
 #import "ZZCommonModel.h"
 #import "ZZContentModel.h"
-
+#import "BoardDefine.h"
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger,ZZDrawBoardPointType)
-{
-    ZZDrawBoardPointTypeStart = 1,
-    ZZDrawBoardPointTypeMove = 2,
-    ZZDrawBoardPointTypeEnd = 3
-};
 
-typedef NS_ENUM(NSInteger,ZZWhiteboardLinesMode){
-    ZZWhiteboardLinesMode_WhiteBoard = 0,            //白板数据
-    ZZWhiteboardLinesMode_PPT = 1,                   //普通PPT数据
-    ZZWhiteboardLinesMode_iSpring = 2                //动态PPT数据
-};
 
 typedef void (^LinesChangedHandler)(NSInteger index,NSInteger length,NSString *locations);
 
