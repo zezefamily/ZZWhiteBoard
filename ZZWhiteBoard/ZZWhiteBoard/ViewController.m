@@ -8,10 +8,10 @@
 #define ZZSendCmdMaxSize 20
 
 #import "ViewController.h"
-#import "ZZDrawBoard.h"
+#import "ZZDrawBoard.h"      //寄存器画板UIBezierPath+CoreGraphics
 #import "ZZLinesManager.h"
 #import "ZZToolBar.h"
-#import "ZZLayerDrawBoard.h"
+#import "ZZLayerDrawBoard.h"  //图层画板UIBezierPath+CAShapeLayer
 @interface ViewController ()<ZZLinesManagerDelegate,ZZDrawBoardDataSource,ZZToolBarDelegate>
 {
     UIImageView *_bgImageView;
@@ -21,8 +21,8 @@
     ZZToolBar *_toolBar;        // 工具条
 }
 @property (nonatomic,strong) ZZLayerDrawBoard *drawBoard;     // 画板
-@property (nonatomic,strong) ZZLinesManager *linesManager;   // 画板数据管理器
 
+@property (nonatomic,strong) ZZLinesManager *linesManager;   // 画板数据管理器
 @property (nonatomic,copy) NSString *user_id;
 @end
 

@@ -21,6 +21,7 @@
     CGFloat _radius;
     CAShapeLayer *_bgContentLayer;
     CGAffineTransform _currentTransfrom;
+    CGPoint _longPrePoint;
 }
 @property (nonatomic,assign) ZZDrawBoardPointType drawState;
 @property (nonatomic,strong) UIImage *realImage;
@@ -64,6 +65,11 @@
         _currentPaintModel = [[ZZPaintModel alloc]init];
         
         _currentTransfrom = CGAffineTransformIdentity;
+        
+//        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longPress:)];
+////        longPress.minimumPressDuration = 1.0f;
+//        [self addGestureRecognizer:longPress];
+//        self.userInteractionEnabled = YES;
     }
     return self;
 }
@@ -114,20 +120,7 @@
         layer.bounds = path.bounds;
         layer.frame = path.bounds;
         [_bgContentLayer addSublayer:layer];
-//        if(path){
-//            [self.bufferLines addObject:path];
-//        }
-        
     }
-//    __weak typeof (self) weakSelf = self;
-//    [self reload_drawingImageWithPath:self.bufferLines completed:^(BOOL finish) {
-//        if(finish){
-//            self->_isDrawingFinish = YES;
-//            if([weakSelf.dataSource respondsToSelector:@selector(isDrawingFinish:)]){
-//                [weakSelf.dataSource isDrawingFinish:self->_isDrawingFinish];
-//            }
-//        }
-//    }];
 }
 
 - (NSArray *)getStartEndPointsWithLineModel:(ZZDrawModel *)lineModel
@@ -199,6 +192,7 @@
 - (CAShapeLayer *)addLineLayerWithPath:(ZZPaintPath *)path lineColor:(int)colorIndex
 {
     CAShapeLayer *layer = [CAShapeLayer layer];
+    layer.actions = nil;
     layer.backgroundColor = [UIColor clearColor].CGColor;
     layer.fillColor = [UIColor clearColor].CGColor;
     layer.lineCap = kCALineCapRound;
@@ -267,7 +261,6 @@
     [_displayLinkHolder stop];
     XXLog(@"\n--dealloc--");
 }
-
 #pragma mark - 本地绘制
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
@@ -321,16 +314,15 @@
 }
 - (void)touchBeganWithPoint:(CGPoint)point touches:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"curP====%@",NSStringFromCGPoint(point));
+//    NSLog(@"curP====%@",NSStringFromCGPoint(point));
     CAShapeLayer *selectLayer = [_bgContentLayer hitTest:point];
-    XXLog(@"\nselectLayer == %@",selectLayer);
+//    XXLog(@"\nselectLayer == %@",selectLayer);
     if(selectLayer != nil && selectLayer != _bgContentLayer){
         _isTouchLayer = YES;
         selectLayer.strokeColor = [UIColor greenColor].CGColor;
         _shapeLayer = selectLayer;
         return;
     }
-//    _myRealLayer.hidden = NO;
     self.drawState = ZZDrawBoardPointTypeStart;
     UIColor *color = [self getStoreColorWithIndex:self.colorIndex];
     ZZPaintPath *path;
@@ -358,8 +350,6 @@
     }
     if(self.isEraser){
         path.isEraser = YES;
-        _myRealLayer.hidden = YES;
-        //        [path strokeWithBlendMode:kCGBlendModeCopy alpha:1.0f];
     }
     CAShapeLayer *layer = [self addLineLayerWithPath:path lineColor:self.colorIndex];
     [self.allLayerArray addObject:layer];
@@ -367,16 +357,38 @@
     _shapeLayer = layer;
     
 }
+
+//#pragma mark - 长按手势
+//- (void)longPress:(UILongPressGestureRecognizer *)longPree
+//{
+//    XXLog(@"longPress");
+//    CGPoint point = [longPree locationInView:self];
+//    if(longPree.state == UIGestureRecognizerStateBegan){
+//        CAShapeLayer *selectLayer = [_bgContentLayer hitTest:point];
+//        if(selectLayer != nil && selectLayer != _bgContentLayer){
+//            _isTouchLayer = YES;
+//            _longPrePoint = point;
+//        }
+//    }else if (longPree.state == UIGestureRecognizerStateChanged){
+//        CGFloat offsetX = point.x - _longPrePoint.x;
+//        CGFloat offsetY = point.y - _longPrePoint.y;
+//        _shapeLayer.affineTransform = CGAffineTransformTranslate(_shapeLayer.affineTransform,offsetX,offsetY);
+//        _longPrePoint = point;
+//    }else if (UIGestureRecognizerStateEnded){
+//        _isTouchLayer = NO;
+//    }
+//}
+
 - (void)touchMoveWithPoint:(CGPoint)point touches:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"curP====%@",NSStringFromCGPoint(point));
+//    NSLog(@"curP====%@",NSStringFromCGPoint(point));
     if(_isTouchLayer){
         CGPoint prePoint = [[touches anyObject]previousLocationInView:self];
         CGFloat offsetX = point.x - prePoint.x;
         CGFloat offsetY = point.y - prePoint.y;
-        NSLog(@"curP====%@",NSStringFromCGPoint(point));
-        NSLog(@"preP====%@",NSStringFromCGPoint(prePoint));
-        NSLog(@"offsetX == %f,offsetY == %f",offsetY,offsetY);
+//        NSLog(@"curP====%@",NSStringFromCGPoint(point));
+//        NSLog(@"preP====%@",NSStringFromCGPoint(prePoint));
+//        NSLog(@"offsetX == %f,offsetY == %f",offsetY,offsetY);
         _shapeLayer.affineTransform = CGAffineTransformTranslate(_shapeLayer.affineTransform,offsetX,offsetY);
         return;
     }
@@ -396,6 +408,8 @@
         _currentPath = [ZZPaintPath paintPathWithOvalRect:[self getRectWithStartPoint:_startPoint endPoint:_endPoint] lineWidth:3];
     }
     if(_currentPath.isEraser){
+        XXLog(@"橡皮");
+        [self drawEraserPath:_currentPath layer:_shapeLayer];
     }else{
         _shapeLayer.path = _currentPath.CGPath;
         _shapeLayer.lineWidth = 3;
@@ -421,10 +435,15 @@
         _endPoint = point;
         _currentPath = [ZZPaintPath paintPathWithOvalRect:[self getRectWithStartPoint:_startPoint endPoint:_endPoint] lineWidth:3];
     }
-    _shapeLayer.path = _currentPath.CGPath;
-    _shapeLayer.frame = _currentPath.bounds;
-    _shapeLayer.bounds = _currentPath.bounds;
-    _shapeLayer.lineWidth = 3;
+    if(_currentPath.isEraser){
+        [self drawEraserPath:_currentPath layer:_shapeLayer];
+    }else{
+        _shapeLayer.path = _currentPath.CGPath;
+        _shapeLayer.frame = _currentPath.bounds;
+        _shapeLayer.bounds = _currentPath.bounds;
+        _shapeLayer.lineWidth = 3;
+    }
+    
 }
 
 #pragma mark - 根据起始点获取Rect
@@ -447,5 +466,36 @@
     radius = hypotf(a, b);
     return radius;
 }
+
+- (void)drawEraserPath:(ZZPaintPath *)path layer:(CALayer *)eraserLayer
+{
+    @autoreleasepool {
+        //1
+        UIGraphicsBeginImageContext(self.bounds.size);
+        //2
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        [[UIColor clearColor]setFill];
+        UIRectFill(self.bounds);
+        CGContextSetLineCap(context, kCGLineCapRound);
+        CGContextSetLineJoin(context, kCGLineJoinRound);
+        //3
+        if(_realImage){
+            [_realImage drawInRect:self.bounds];
+        }
+//        CGContextSetBlendMode(context, kCGBlendModeClear);
+        CGContextSetLineWidth(context, 15.0f);
+        CGContextSetStrokeColorWithColor(context, path.lineColor.CGColor);
+        CGContextAddPath(context, path.CGPath);
+        CGContextStrokePath(context);
+        //5
+        UIImage *previewImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        //6
+        _realImage = previewImage;
+        _bgContentLayer.contents = (__bridge id _Nullable)(_realImage.CGImage);
+    }
+}
+
 @end
+
 
