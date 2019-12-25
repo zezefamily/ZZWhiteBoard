@@ -115,9 +115,9 @@
             break;
         case 4:
         {
+            _configModel.type = @"eraser";
             [self.drawBoard setPaintType:ZZDrawBoardPaintTypeLine];
             [self.drawBoard setIsEraser:YES];
-            _configModel.type = @"eraser";
         }
             break;
         case 5:
@@ -252,6 +252,7 @@
     model.user_id = self.user_id;
     model.moveType = type;
     model.type = _configModel.type;
+    XXLog(@"model.type == %@",model.type);
     [self.linesManager addLineWithModel:model uid:model.user_id mode:ZZWhiteboardLinesMode_WhiteBoard page:0];
     //发送到远端
     //TODO...

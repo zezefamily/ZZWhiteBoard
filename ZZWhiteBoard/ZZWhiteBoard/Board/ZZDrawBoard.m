@@ -100,7 +100,7 @@
         ZZPaintPath *path;
         XXLog(@"重绘draw == %@",draw);
         XXLog(@"draw.des == %@",[draw description]);
-        if([draw.type isEqualToString:@"pencil"]){
+        if([draw.type isEqualToString:@"pencil"]||[draw.type isEqualToString:@"eraser"]){
             XXLog(@"pencilpencilpencilpencilpencil");
             path = [self getLinePathWithModel:draw];
         }else{
