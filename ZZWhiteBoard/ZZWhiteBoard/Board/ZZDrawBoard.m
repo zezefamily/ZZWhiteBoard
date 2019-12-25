@@ -17,6 +17,9 @@
     CGPoint _startPoint;
     CGPoint _endPoint;
     CGFloat _radius;
+    CAShapeLayer *_dragLayer;
+    NSInteger _dragIndex;
+    ZZDrawModel *_dragModel;
 }
 @property (nonatomic,assign) ZZDrawBoardPointType drawState;
 @property (nonatomic,strong) UIImage *realImage;
@@ -94,7 +97,16 @@
     [self clearAllSubLayers];
     for(int i = 0;i<linesModelArray.count;i++){
         ZZDrawModel *draw = [linesModelArray objectAtIndex:i];
-        ZZPaintPath *path = [self getLinePathWithModel:draw];
+        ZZPaintPath *path;
+        XXLog(@"重绘draw == %@",draw);
+        XXLog(@"draw.des == %@",[draw description]);
+        if([draw.type isEqualToString:@"pencil"]){
+            XXLog(@"pencilpencilpencilpencilpencil");
+            path = [self getLinePathWithModel:draw];
+        }else{
+            XXLog(@"图形图形图形图形图形图形图形图形图形图形");
+            path = draw.path;
+        }
         path.lineColor = [self getStoreColorWithIndex:draw.color];
         if(path){
             [self.bufferLines addObject:path];
@@ -158,6 +170,7 @@
         return path;
     }else{ //一般曲线
         if(lineModel.trail.count == 0){return nil;}
+        XXLog(@"一般曲线");
         NSMutableArray *trail = lineModel.trail;
         for(int i = 0;i<trail.count;i++){
             NSDictionary *dicPoint = [trail objectAtIndex:i];
@@ -171,6 +184,7 @@
         if([lineModel.type isEqualToString:@"eraser"]){
             path.isEraser = YES;
         }
+        XXLog(@"path == %@",path);
     }
     path.lineColor = [self getStoreColorWithIndex:lineModel.color];
     return path;
@@ -339,45 +353,97 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     CGPoint p = [[touches anyObject]locationInView:self];
+    if(self.isDrag){ //拖拽
+        ZZWhiteboardLinesMode drawMode = [_dataSource drawBoardCurrentMode];
+        NSArray *data = [[_dataSource drawBoardZZLinesManager]getDrawModelWithPoint:p mode:drawMode page:0];
+        if(data != nil){
+            XXLog(@"取到图形");
+            ZZDrawModel *drawModel = (ZZDrawModel *)[data safe_getFirstObject];
+            CAShapeLayer *layer = [self addLineLayerWithPath:drawModel.path lineColor:3];
+            [self.layer addSublayer:layer];
+            _dragModel = drawModel;
+            _dragLayer = layer;
+            _dragLayer.path = _dragModel.path.CGPath;
+            _dragLayer.frame = _dragModel.path.bounds;
+            _dragLayer.bounds = _dragModel.path.bounds;
+            return;
+        }
+    }
     [self touchBeganWithPoint:p];
     _currentPaintModel.paintType = self.paintType;
     if(self.paintType == ZZDrawBoardPaintTypeLine){
         _currentPaintModel.touchType = ZZDrawBoardPointTypeStart;
         _currentPaintModel.defaultPoint = p;
-        if([self.dataSource respondsToSelector:@selector(touchEventWithPaintModel:)]){
-            [self.dataSource touchEventWithPaintModel:_currentPaintModel];
+        if([self.dataSource respondsToSelector:@selector(touchEventWithPaintModel:path:)]){
+            [self.dataSource touchEventWithPaintModel:_currentPaintModel path:_currentPath];
         }
     }
 }
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     CGPoint p = [[touches anyObject]locationInView:self];
+    if(self.isDrag){ //拖拽
+        if(_dragLayer){
+            XXLog(@"拖拽图形");
+            CGPoint prePoint = [[touches anyObject]previousLocationInView:self];
+            CGFloat offsetX = p.x - prePoint.x;
+            CGFloat offsetY = p.y - prePoint.y;
+            _dragLayer.affineTransform = CGAffineTransformTranslate(_dragLayer.affineTransform,offsetX,offsetY);
+            //        NSLog(@"拖拽图形frame == %@",NSStringFromCGRect(_dragLayer.frame));
+            //        NSLog(@"offsetX == %f offsetY == %f",offsetX,offsetY);
+            XXLog(@"_dragLayer.position == %@",NSStringFromCGPoint(_dragLayer.position));
+            return;
+        }
+    }
     [self touchMoveWithPoint:p];
     if(self.paintType == ZZDrawBoardPaintTypeLine){
         _currentPaintModel.touchType = ZZDrawBoardPointTypeMove;
         _currentPaintModel.defaultPoint = p;
-        if([self.dataSource respondsToSelector:@selector(touchEventWithPaintModel:)]){
-            [self.dataSource touchEventWithPaintModel:_currentPaintModel];
+        if([self.dataSource respondsToSelector:@selector(touchEventWithPaintModel:path:)]){
+            [self.dataSource touchEventWithPaintModel:_currentPaintModel path:_currentPath];
         }
     }
 }
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     CGPoint p = [[touches anyObject]locationInView:self];
+    if(self.isDrag){ //拖拽
+        if(_dragLayer){
+            //放开拖拽
+            ZZPaintPath *newPath;
+            // @"rectangle",@"circle",@"closedCurve"
+            if([_dragModel.type isEqualToString:@"rectangle"]){
+                newPath = [ZZPaintPath bezierPathWithRect:CGRectMake(_dragLayer.frame.origin.x, _dragLayer.frame.origin.y, _dragLayer.frame.size.width, _dragLayer.frame.size.height)];
+            }else if ([_dragModel.type isEqualToString:@"closedCurve"]){
+                newPath = [ZZPaintPath paintPathWithOvalRect:CGRectMake(_dragLayer.frame.origin.x, _dragLayer.frame.origin.y, _dragLayer.frame.size.width, _dragLayer.frame.size.height) lineWidth:3];
+            }else if ([_dragModel.type isEqualToString:@"circle"]){
+                XXLog(@"_dragLayer.position == %@",NSStringFromCGPoint(_dragLayer.position));
+                newPath = [ZZPaintPath bezierPathWithArcCenter:CGPointMake(_dragLayer.frame.origin.x+_dragLayer.frame.size.width/2, _dragLayer.frame.origin.y+_dragLayer.frame.size.height/2) radius:_dragLayer.frame.size.width/2 startAngle:0 endAngle:M_PI*2 clockwise:YES];
+            }
+            //        newPath.lineColor = [UIColor yellowColor];
+            [self drawingImageWithPath:newPath completed:nil];
+            [_dragLayer removeFromSuperlayer];
+            _dragLayer = nil;
+            _dragModel.path = newPath;
+            //添加到线管理器
+            [[_dataSource drawBoardZZLinesManager]addLineWithModel:_dragModel uid:@"1234" mode:ZZWhiteboardLinesMode_WhiteBoard page:0];
+            return;
+        }
+    }
     [self touchEndWithPoint:p];
     if(self.paintType == ZZDrawBoardPaintTypeLine){
         _currentPaintModel.touchType = ZZDrawBoardPointTypeEnd;
         _currentPaintModel.defaultPoint = p;
-        if([self.dataSource respondsToSelector:@selector(touchEventWithPaintModel:)]){
-            [self.dataSource touchEventWithPaintModel:_currentPaintModel];
+        if([self.dataSource respondsToSelector:@selector(touchEventWithPaintModel:path:)]){
+            [self.dataSource touchEventWithPaintModel:_currentPaintModel path:_currentPath];
         }
     }else{
         _currentPaintModel.touchType = ZZDrawBoardPointTypeEnd;
         _currentPaintModel.startPoint = _startPoint;
         _currentPaintModel.endPoint = _endPoint;
         _currentPaintModel.radius = _radius;
-        if([self.dataSource respondsToSelector:@selector(touchEventWithPaintModel:)]){
-            [self.dataSource touchEventWithPaintModel:_currentPaintModel];
+        if([self.dataSource respondsToSelector:@selector(touchEventWithPaintModel:path:)]){
+            [self.dataSource touchEventWithPaintModel:_currentPaintModel path:_currentPath];
         }
     }
     //clear

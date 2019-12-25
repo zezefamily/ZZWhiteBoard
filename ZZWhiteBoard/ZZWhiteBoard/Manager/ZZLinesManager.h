@@ -58,6 +58,9 @@ typedef void (^LinesAddHandler)(BOOL finish);
 - (void)clearAlllinesWithMode:(ZZWhiteboardLinesMode)lineMode page:(NSInteger)currentPage completed:(LinesChangedHandler)handler;
 //数据切换
 - (void)changeWhiteBoardMode:(ZZWhiteboardLinesMode)lineMode page:(NSInteger)page;
+
+- (NSArray *)getDrawModelWithPoint:(CGPoint)point mode:(ZZWhiteboardLinesMode)mode page:(NSInteger)currentPage;
+
 @end
 
 NS_ASSUME_NONNULL_END

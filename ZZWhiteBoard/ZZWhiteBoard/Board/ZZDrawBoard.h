@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class ZZLinesManager;
 @class ZZPaintModel;
+@class ZZPaintPath;
 @protocol ZZDrawBoardDataSource <NSObject>
 
 - (ZZLinesManager *)drawBoardZZLinesManager;
@@ -32,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 //- (void)touchEventWithType:(ZZDrawBoardPointType)eventType point:(CGPoint)point;
 
-- (void)touchEventWithPaintModel:(ZZPaintModel *)paintModel;
+- (void)touchEventWithPaintModel:(ZZPaintModel *)paintModel path:(ZZPaintPath * __nullable)path;
 
 @optional
 
@@ -53,6 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) CGFloat strokeWidth;
 
 @property (nonatomic,assign) BOOL isEraser;
+
+@property (nonatomic,assign) BOOL isDrag;
 
 @property (nonatomic,assign) int colorIndex;
 

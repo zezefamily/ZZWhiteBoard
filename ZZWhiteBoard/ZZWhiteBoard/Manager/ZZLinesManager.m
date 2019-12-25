@@ -67,6 +67,7 @@
         }
         [pageLines addObject:line];
     }
+    XXLog(@"allLine == %@",self.allLines);
 }
 - (void)addLineWithArray:(NSMutableArray <ZZDrawModel *>*)lines uid:(NSString *)uid mode:(ZZWhiteboardLinesMode)mode page:(NSInteger)currentPage completed:(LinesAddHandler)handler
 {
@@ -233,6 +234,47 @@
     _needUpdate = YES;
 }
 
+- (NSArray *)getDrawModelWithPoint:(CGPoint)point mode:(ZZWhiteboardLinesMode)mode page:(NSInteger)currentPage
+{
+    NSMutableArray *linesArray;
+    if(mode == ZZWhiteboardLinesMode_WhiteBoard){
+        linesArray = [self.allLines objectForKey:ZZWhiteboardDictionaryKey];
+    }else{
+        linesArray = [self getPageLinesWithPage:currentPage mode:mode];
+    }
+    if(linesArray.count == 0){
+        return nil;
+    }
+    //1.倒序遍历下 找到包含point的path
+    NSArray *reverseArr = [[linesArray reverseObjectEnumerator]allObjects];
+    NSArray *tasks = nil;
+    ZZDrawModel *targetObj = nil;
+    for(int idx = 0;idx<reverseArr.count;idx++){
+        ZZDrawModel *obj = [reverseArr safe_objectAtIndex:idx];
+        if(![obj.type isEqualToString:@"pencil"]){
+            BOOL isHave = [obj.path containsPoint:point];
+            if(isHave){
+                targetObj = obj;
+                break;
+            }
+        }
+    }
+    if(targetObj == nil){
+        XXLog(@"未找到目标对象");
+//        _needUpdate = YES;
+        return nil;
+    }
+    //2.找到目标对象在正序里面的位置index
+    NSInteger index = [linesArray indexOfObject:targetObj];
+    //3.从缓存记录里面删除目标对象
+    tasks = @[targetObj,@(index)];
+    [linesArray removeObject:[tasks safe_getFirstObject]];
+    _needUpdate = YES;
+    XXLog(@"getDrawModelWithPoint_allLine == %@",self.allLines);
+    return tasks;
+
+}
+//0x60000202d290
 #pragma mark - 获取用户在当前page线条数据里的最后一条线
 - (ZZDrawModel *)getLastLineWithUser:(NSString *)user linesArray:(NSMutableArray *)linesArray
 {

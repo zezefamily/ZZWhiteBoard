@@ -20,6 +20,10 @@
     }
     return _trail;
 }
+//- (NSString *)description
+//{
+//    return [NSString stringWithFormat:@"trail == %@,type == %@",self.trail,self.type];
+//}
 @end
 
 @implementation ZZDrawPointModel

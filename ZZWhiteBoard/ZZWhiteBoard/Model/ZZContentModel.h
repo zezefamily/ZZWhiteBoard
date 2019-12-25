@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "ZZPaintPath.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZZContentModel : NSObject
@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 // 绘制
 @interface ZZDrawModel : NSObject
+
+@property (nonatomic,strong) ZZPaintPath *path;
 @property (nonatomic,copy) NSString *user_id;
 @property (nonatomic,assign) int color;
 @property (nonatomic,strong) NSMutableArray *trail;

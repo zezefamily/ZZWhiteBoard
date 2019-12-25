@@ -270,8 +270,10 @@
     if(self.paintType == ZZDrawBoardPaintTypeLine){
         _currentPaintModel.touchType = ZZDrawBoardPointTypeStart;
         _currentPaintModel.defaultPoint = p;
-        if([self.dataSource respondsToSelector:@selector(touchEventWithPaintModel:)]){
-            [self.dataSource touchEventWithPaintModel:_currentPaintModel];
+        if(!_isTouchLayer){
+            if([self.dataSource respondsToSelector:@selector(touchEventWithPaintModel:)]){
+                [self.dataSource touchEventWithPaintModel:_currentPaintModel];
+            }
         }
     }
 }
@@ -279,31 +281,37 @@
 {
     CGPoint p = [[touches anyObject]locationInView:self];
     [self touchMoveWithPoint:p touches:touches withEvent:event];
-    if(self.paintType == ZZDrawBoardPaintTypeLine){
-        _currentPaintModel.touchType = ZZDrawBoardPointTypeMove;
-        _currentPaintModel.defaultPoint = p;
-        if([self.dataSource respondsToSelector:@selector(touchEventWithPaintModel:)]){
-            [self.dataSource touchEventWithPaintModel:_currentPaintModel];
+    if(!_isTouchLayer){
+        if(self.paintType == ZZDrawBoardPaintTypeLine){
+            _currentPaintModel.touchType = ZZDrawBoardPointTypeMove;
+            _currentPaintModel.defaultPoint = p;
+            if([self.dataSource respondsToSelector:@selector(touchEventWithPaintModel:)]){
+                [self.dataSource touchEventWithPaintModel:_currentPaintModel];
+            }
         }
     }
+    
 }
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     CGPoint p = [[touches anyObject]locationInView:self];
     [self touchEndWithPoint:p touches:touches withEvent:event];
-    if(self.paintType == ZZDrawBoardPaintTypeLine){
-        _currentPaintModel.touchType = ZZDrawBoardPointTypeEnd;
-        _currentPaintModel.defaultPoint = p;
-        if([self.dataSource respondsToSelector:@selector(touchEventWithPaintModel:)]){
-            [self.dataSource touchEventWithPaintModel:_currentPaintModel];
-        }
-    }else{
-        _currentPaintModel.touchType = ZZDrawBoardPointTypeEnd;
-        _currentPaintModel.startPoint = _startPoint;
-        _currentPaintModel.endPoint = _endPoint;
-        _currentPaintModel.radius = _radius;
-        if([self.dataSource respondsToSelector:@selector(touchEventWithPaintModel:)]){
-            [self.dataSource touchEventWithPaintModel:_currentPaintModel];
+    
+    if(!_isTouchLayer){
+        if(self.paintType == ZZDrawBoardPaintTypeLine){
+            _currentPaintModel.touchType = ZZDrawBoardPointTypeEnd;
+            _currentPaintModel.defaultPoint = p;
+            if([self.dataSource respondsToSelector:@selector(touchEventWithPaintModel:)]){
+                [self.dataSource touchEventWithPaintModel:_currentPaintModel];
+            }
+        }else{
+            _currentPaintModel.touchType = ZZDrawBoardPointTypeEnd;
+            _currentPaintModel.startPoint = _startPoint;
+            _currentPaintModel.endPoint = _endPoint;
+            _currentPaintModel.radius = _radius;
+            if([self.dataSource respondsToSelector:@selector(touchEventWithPaintModel:)]){
+                [self.dataSource touchEventWithPaintModel:_currentPaintModel];
+            }
         }
     }
     //clear
@@ -316,7 +324,6 @@
 {
 //    NSLog(@"curP====%@",NSStringFromCGPoint(point));
     CAShapeLayer *selectLayer = [_bgContentLayer hitTest:point];
-//    XXLog(@"\nselectLayer == %@",selectLayer);
     if(selectLayer != nil && selectLayer != _bgContentLayer){
         _isTouchLayer = YES;
         selectLayer.strokeColor = [UIColor greenColor].CGColor;
@@ -386,9 +393,6 @@
         CGPoint prePoint = [[touches anyObject]previousLocationInView:self];
         CGFloat offsetX = point.x - prePoint.x;
         CGFloat offsetY = point.y - prePoint.y;
-//        NSLog(@"curP====%@",NSStringFromCGPoint(point));
-//        NSLog(@"preP====%@",NSStringFromCGPoint(prePoint));
-//        NSLog(@"offsetX == %f,offsetY == %f",offsetY,offsetY);
         _shapeLayer.affineTransform = CGAffineTransformTranslate(_shapeLayer.affineTransform,offsetX,offsetY);
         return;
     }

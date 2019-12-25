@@ -4,7 +4,7 @@
 //
 //  Created by 泽泽 on 2019/9/4.
 //  Copyright © 2019 泽泽. All rights reserved.
-//
+//  部分逻辑设计可能不是很合理，仅举例说明
 #define ZZSendCmdMaxSize 20
 
 #import "ViewController.h"
@@ -17,10 +17,13 @@
     UIImageView *_bgImageView;
     ZZDrawModel *_configModel;  // 全局配置项
     NSMutableArray *_trails;    // 普通线数据 全局收集池(集合)
+    NSMutableArray *_lineBufferArray;
     NSDictionary *_lastPoint;   // 记录末尾的点
     ZZToolBar *_toolBar;        // 工具条
+    
+    UILabel *_statusLabel;      //状态显示label
 }
-@property (nonatomic,strong) ZZLayerDrawBoard *drawBoard;     // 画板
+@property (nonatomic,strong) ZZDrawBoard *drawBoard;     // 画板
 
 @property (nonatomic,strong) ZZLinesManager *linesManager;   // 画板数据管理器
 @property (nonatomic,copy) NSString *user_id;
@@ -45,7 +48,7 @@
     _configModel.type = @"pencil";
     _configModel.color = 0;
     _trails = [NSMutableArray array];
-    self.drawBoard = [[ZZLayerDrawBoard alloc]initWithFrame:CGRectMake(0, 20, 800, 600)];
+    self.drawBoard = [[ZZDrawBoard alloc]initWithFrame:CGRectMake(0, 20, 800, 600)];
     self.drawBoard.dataSource = self;
 //    self.drawBoard.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.drawBoard];
@@ -53,15 +56,45 @@
     _toolBar = [[ZZToolBar alloc]initWithFrame:CGRectMake(0, self.drawBoard.frame.size.height+20, self.drawBoard.frame.size.width, 40)];
     _toolBar.delegate = self;
     [self.view addSubview:_toolBar];
+    
+    _lineBufferArray = [NSMutableArray array];
+    
+//    UIBezierPath *path = [UIBezierPath bezierPath];
+//    [path moveToPoint:CGPointMake(100, 100)];
+//    [path addLineToPoint:CGPointMake(400, 100)];
+//    [path addLineToPoint:CGPointMake(400, 300)];
+//    [path addLineToPoint:CGPointMake(100, 300)];
+//    [path addLineToPoint:CGPointMake(100, 100)];
+//
+//    CAShapeLayer *layer = [CAShapeLayer layer];
+//    layer.backgroundColor = [UIColor redColor].CGColor;
+//    layer.path = path.CGPath;
+//    layer.fillColor = [UIColor clearColor].CGColor;
+//    layer.strokeColor = [UIColor blackColor].CGColor;
+////    layer.fillMode =
+//    [self.view.layer addSublayer:layer];
+//
+//    BOOL isHave = [path containsPoint:CGPointMake(50, 50)];
+//    XXLog(@"isHave == %d",isHave);
+    
+    _statusLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 680, self.view.frame.size.width, self.view.frame.size.height - 680 - 20)];
+    _statusLabel.font = [UIFont boldSystemFontOfSize:50];
+    _statusLabel.textAlignment = 1;
+    [self.view addSubview:_statusLabel];
+    _statusLabel.text = @"绘制模式";
+    
 }
 #pragma mark - ZZToolBarDelegate
 - (void)toolButtonDidSelectedWithTag:(NSInteger)tag sender:(UIButton *)sender
 {
     [self.drawBoard setIsEraser:NO];
+    [self.drawBoard setIsDrag:NO];
     _configModel.type = @"";
+    _statusLabel.text = @"绘制模式";
     switch (tag) {
         case 0:
         {
+            _configModel.type = @"pencil";
             [self.drawBoard setPaintType:ZZDrawBoardPaintTypeLine];
         }
             break;
@@ -99,6 +132,12 @@
             }];
         }
             break;
+        case 7:
+        {
+            self.drawBoard.isDrag = YES;
+            _statusLabel.text = @"拖拽模式";
+        }
+            break;
         default:
             break;
     }
@@ -122,7 +161,7 @@
 {
     return 0;
 }
-- (void)touchEventWithPaintModel:(ZZPaintModel *)paintModel
+- (void)touchEventWithPaintModel:(ZZPaintModel *)paintModel path:(ZZPaintPath *)path
 {
     if(paintModel.paintType == ZZDrawBoardPaintTypeLine){
         ZZDrawPointModel *sendPoint = [ZZDrawPointModel new];
@@ -152,6 +191,7 @@
 //        XXLog(@"\ncontent == \n%@",commonModel.content);
         //本地存储
         ZZDrawModel *model = [ZZDrawModel mj_objectWithKeyValues:commonModel.content];
+        model.path = path;
         model.user_id = self.user_id;
         model.moveType = 1;
         [self.linesManager addLineWithModel:model uid:model.user_id mode:ZZWhiteboardLinesMode_WhiteBoard page:0];
@@ -164,6 +204,7 @@
         [_trails removeAllObjects];
         [_trails addObject:@{@"x":[NSNumber numberWithFloat:point.x],@"y":[NSNumber numberWithFloat:point.y]}];
         NSMutableArray *trailBuffer = [NSMutableArray arrayWithArray:_trails];
+        [_lineBufferArray addObject:trailBuffer];
         [self publicDrawMessageSendWithBuffer:trailBuffer type:point.type lineConfig:lineConfig];
     }
     if(point.type == ZZDrawBoardPointTypeMove){
@@ -173,17 +214,20 @@
             if(_lastPoint){
                 [trailBuffer insertObject:_lastPoint atIndex:0];
             }
+            [_lineBufferArray addObject:trailBuffer];
             _lastPoint = (NSDictionary *)[_trails lastObject];
             [_trails removeAllObjects];
             [self publicDrawMessageSendWithBuffer:trailBuffer type:point.type lineConfig:lineConfig];
         }
     }
     if(point.type == ZZDrawBoardPointTypeEnd){
+        
         [_trails addObject:@{@"x":[NSNumber numberWithFloat:point.x],@"y":[NSNumber numberWithFloat:point.y]}];
         NSMutableArray *trailBuffer = [NSMutableArray arrayWithArray:_trails];
         if(_lastPoint){
             [trailBuffer insertObject:_lastPoint atIndex:0];
         }
+        [_lineBufferArray addObject:trailBuffer];
         _lastPoint = nil;
         [_trails removeAllObjects];
         [self publicDrawMessageSendWithBuffer:trailBuffer type:point.type lineConfig:lineConfig];
@@ -203,29 +247,15 @@
                             @"widthType":@"1",
                             @"user_id":self.user_id
                             };
-    //本地存储
+//    //本地存储
     ZZDrawModel *model = [ZZDrawModel mj_objectWithKeyValues:commonModel.content];
     model.user_id = self.user_id;
     model.moveType = type;
+    model.type = _configModel.type;
     [self.linesManager addLineWithModel:model uid:model.user_id mode:ZZWhiteboardLinesMode_WhiteBoard page:0];
     //发送到远端
     //TODO...
 }
-/*
- //测试个东西
- SEL sel = @selector(testWithString:);
- IMP imp = [self methodForSelector:sel];
- if(imp == nil)return;
- void (*func)(id,SEL,NSString*) = (void *)imp;
- func(self,sel,@"测试文本");
-*/
-//- (void)testWithString:(NSString *)name
-//{
-//    XXLog(@"name ==== %@, cmd == %@",name,NSStringFromSelector(_cmd));
-//}
-//
-//void func(id _class,SEL _cmd,NSString *_name) {
-//    XXLog(@"name ==== %@",_name);
-//}
+
 
 @end

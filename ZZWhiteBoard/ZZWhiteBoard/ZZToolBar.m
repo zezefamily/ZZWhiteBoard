@@ -27,7 +27,7 @@
 - (void)loadUI
 {
     _buttons = [NSMutableArray array];
-    NSArray *btns = @[@"线",@"矩形",@"正圆",@"闭合曲线",@"橡皮",@"撤销",@"清空"];
+    NSArray *btns = @[@"线",@"矩形",@"正圆",@"闭合曲线",@"橡皮",@"撤销",@"清空",@"拖拽"];
     for(int i = 0;i<btns.count;i++){
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
         btn.frame = CGRectMake(15+60*i, 0, 50, _frame.size.height);
