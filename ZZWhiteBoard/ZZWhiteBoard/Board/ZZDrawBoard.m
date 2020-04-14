@@ -221,7 +221,8 @@
 {
     @autoreleasepool{
         //1
-        UIGraphicsBeginImageContext(self.bounds.size);
+//        UIGraphicsBeginImageContext(self.bounds.size);
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size,NO,0.0);
         //2
         CGContextRef context = UIGraphicsGetCurrentContext();
         CGContextClearRect(context, self.bounds);
@@ -271,7 +272,8 @@
 {
     @autoreleasepool{
         //1
-        UIGraphicsBeginImageContext(self.bounds.size);
+//        UIGraphicsBeginImageContext(self.bounds.size);
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size,NO,0.0);
         //2
         CGContextRef context = UIGraphicsGetCurrentContext();
         [[UIColor clearColor]setFill];
